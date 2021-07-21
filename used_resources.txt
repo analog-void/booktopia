@@ -1,0 +1,22 @@
+BookTopia Logo:
+copyright: Brandon Triola
+https://dribbble.com/BrandonTriola
+
+## Show choices from model
+https://stackoverflow.com/questions/4320679/django-display-choice-value
+
+## property for image URL in template / admin
+https://github.com/matthewwithanm/django-imagekit/issues/254
+
+
+## Create folders with os:
+https://stackoverflow.com/questions/3437798/create-directory-while-upload-using-django
+
+## Barcode Gen:
+https://pypi.org/project/qrcode/
+
+## Admin image preview:
+https://stackoverflow.com/questions/16307307/django-admin-show-image-from-imagefield
+
+
+

@@ -1,0 +1,115 @@
+{% extends 'core_template.html' %}
+{% load static %}
+{% load  render_table from  django_tables2 %}
+
+{% block title %}Всички мои книги{% endblock %}
+
+{% block content_main %}
+
+    {# Add new book button   #}
+    <div class="d-flex flex-column mb-3 align-items-center">
+        <div class="p-2">
+            <a href="{% url 'add new book' %}" class="btn btn-outline-dark ">
+                {% if books.count == 0 %}
+                    Добави Първата си Книга в Буктопия!
+                {% else %}
+                    Добави нова книга
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+
+
+    {# Table #}
+    <table class="table table-sm table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Книга</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Издателство</th>
+            <th scope="col">Година</th>
+            <th scope="col">Статус</th>
+            <th scope="col" class="text-center">Състояние</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for i in books %}
+            <tr>
+                <th scope="row">{{ i.pk }}</th>
+                <td class=""><strong>
+                    <a href="{% url 'book detail' i.pk %}">{{ i.name.upper }}</a>
+
+                </strong></td>
+                <td>{{ i.author_name }}</td>
+                <td>{{ i.editions }}</td>
+{#                <td><span class="badge badge-success rounded-pill">{{ i.editions }}</span></td>#}
+
+                {% if i.release_year %}
+                    <td>{{ i.release_year }} г.</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
+
+                {% if i.get_book_current_status_display == "СВОБОДНА" %}
+                    <td class="bg-success">
+                        {% elif i.get_book_current_status_display == "ЗАЕТА" %}
+                    <td class="bg-secondary">
+                        {% elif i.get_book_current_status_display == "ПРОДАДЕНА" or i.get_book_current_status_display == "БРАКУВАНА" or i.get_book_current_status_display == "ЗАГУБЕНА" %}
+                    <td class="bg-danger">
+                        {% else %}
+                    <td class="bg-dark text-warning">
+                {% endif %}
+                {{ i.get_book_current_status_display }}</td>
+
+                {% if i.get_visual_condition_display == "Отлично" %}
+                    <td class="bg-success text-center">
+                        {% elif  i.get_visual_condition_display == "Добро" %}
+                    <td class="bg-warning text-center">
+                        {% else %}
+                    <td class="bg-danger text-center">
+                {% endif %}
+                {{ i.get_visual_condition_display }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# Paginations #}
+    <nav aria-label="...">
+        <ul class="pagination pagination-circle justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предишна</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Следваща</a>
+            </li>
+        </ul>
+    </nav>
+
+    {% comment %}
+        <nav aria-label="...">
+      <ul class="pagination pagination-sm justify-content-center">
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            1
+            <span class="visually-hidden">(current)</span>
+          </span>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+      </ul>
+    </nav>
+    {% endcomment %}
+{% endblock %}
+
+
+

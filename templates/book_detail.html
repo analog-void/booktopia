@@ -1,0 +1,236 @@
+{% extends 'core_template.html' %}
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block meta_content %}{% endblock %}
+{% block title %}Детайлна информация за книга{% endblock %}
+
+
+{% block content_main %}
+
+    <!-- Tabs navs -->
+    <ul class="nav nav-tabs nav-justified mb-3" id="tab_book" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active"
+               id="ex3-tab-1"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-1"
+               role="tab"
+               aria-controls="ex3-tabs-1"
+               aria-selected="true">Обща информация</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-2"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-2"
+               role="tab"
+               aria-controls="ex3-tabs-2"
+               aria-selected="false">Заемания</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-3"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-3"
+               role="tab"
+               aria-controls="ex3-tabs-3"
+               aria-selected="false">Движения</a>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-4"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-4"
+               role="tab"
+               aria-controls="ex3-tabs-3"
+               aria-selected="false">Коментари</a>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-5"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-5"
+               role="tab"
+               aria-controls="ex3-tabs-5"
+               aria-selected="false">Ревюта</a>
+        </li>
+
+    </ul>
+    <!-- Tabs -->
+
+    <!-- Tabs content -->
+    <div class="tab-content" id="ex2-content">
+        <div class="tab-pane fade show active"
+             id="ex3-tabs-1"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-1">
+
+            {# TAB 2 content #}
+            {# Section Info 1 #}
+            <div class="container align-content-md-center text-center">
+                <div class="row">
+                    <div class="col-md">
+                        <p>Име на Книгата</p>
+                        <h4>{{ book.name|upper }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>Автор</p>
+                        <h4>{{ book.author_name|title }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>Издателство</p>
+                        <h4>{{ book.editions|default_if_none:"~"|title }}</h4>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr>
+
+            {# Photos #}
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-md">
+                        <p>Снимка Корица</p>
+                        <img src="{{ book.cover_front.url }}"
+                             class="img-fluid rounded" alt="Снимка Корица Лице" style="max-width:400px"/>
+                    </div>
+
+                    <div class=" col-md">
+                        <p>Снимка Гръб</p>
+                        <img src="{{ book.cover_back_url }}"
+                             class="img-fluid rounded" alt="Снимка Корица Лице" style="max-width:400px"/>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            {# Section Info 2 #}
+            <div class="container align-content-md-center text-center">
+                <div class="row">
+                    <div class="col-md">
+                        <p>Година на изданието</p>
+                        <h4>{{ book.release_year|default_if_none:"-" }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>Поредица</p>
+                        <h4>{{ book.series|default_if_none:"-" }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>Брой страници</p>
+                        <h4>{{ book.pages_count|default_if_none:"-" }}</h4>
+                    </div>
+
+                    <div class="col-md">
+                        <p>Ширина (cм)</p>
+                        <h4>{{ book.measure_x|default_if_none:"-" }}</h4>
+                    </div>
+
+                    <div class="col-md">
+                        <p>Височина (cм)</p>
+                        <h4>{{ book.measure_y|default_if_none:"-" }}</h4>
+                    </div>
+
+                    <div class="col-md">
+                        <p>Тегло Грама</p>
+                        <h4>{{ book.weight_grams|default_if_none:"-" }} гр.</h4>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            {# Section Info 3 #}
+            <div class="container align-content-md-center text-center">
+                <div class="row">
+                    <div class="col-md">
+                        <p>Вътрешен каталожен номер</p>
+                        <h4>{{ book.catalog_num }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>ISBN</p>
+                        <h4>{{ book.isbn_code|default_if_none:"-" }}</h4>
+                    </div>
+                    <div class="col-md">
+                        <p>OCLC</p>
+                        <h4>{{ book.oclc_code|default_if_none:"-" }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            {# Modify book info form button #}
+            <div class="d-flex flex-column mb-3 align-items-center">
+                <div class="p-2 align-items-center">
+                    <a href="{% url 'add new book' %}" class="btn btn-outline-dark ">
+                            Промени Съдържанието
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+
+        {# TAB 2 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-2"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-2">
+            Tab 2 content
+
+
+
+        </div>
+
+
+        {# TAB 3 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-3"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-3">
+            Tab 3 content
+        </div>
+
+        {# TAB 4 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-4"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-4">
+            Tab 4 content
+        </div>
+
+        {# TAB 5 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-5"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-5">
+            Tab 5 content
+        </div>
+
+
+    </div>
+    <!-- Tabs content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
