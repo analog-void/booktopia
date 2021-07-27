@@ -1,0 +1,18 @@
+{% extends 'core_template.html' %}
+
+{% block content_main %}
+
+    <div class="container">
+        <form action="{% url 'add new book' %}" class="w-50 m-auto" method="post">
+            <h2>Добави нова книга</h2>
+            {% csrf_token %}
+            {{ form }}
+            {{ form.errors }}
+
+            <button type="submit" class="btn btn-rounded btn-outline-primary">Добави книга</button>
+        </form>
+
+
+    </div>
+
+{% endblock %}

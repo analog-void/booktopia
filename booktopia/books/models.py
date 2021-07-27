@@ -4,6 +4,7 @@ import string
 from datetime import datetime
 
 import qrcode
+from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.html import mark_safe  # for Image Tags and book previews
@@ -14,6 +15,8 @@ from booktopia.common.general_choices import BOOK_RELEASE, BOOK_CONDITION, BOOK_
 from booktopia.settings import MEDIA_ROOT
 
 # from .validators import validate_min_rent, validate_min_sell, validate_rent_price, validate_sell_price
+
+UserModel = get_user_model()
 
 """
 Sources of help and research used while developing this file check 
@@ -141,6 +144,12 @@ class Reviews(models.Model):
 
 class Book(models.Model):
     # Section Nom
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+
     name = models.CharField(max_length=200, verbose_name='Име на книгата')
 
     editions = models.ForeignKey(Editions, on_delete=models.DO_NOTHING,
@@ -162,7 +171,8 @@ class Book(models.Model):
                                          blank=True)
 
     book_current_status = models.CharField(max_length=25, default='F',
-                                           verbose_name='Актуално състояние на книгата', choices=BOOK_CURRENT_STATUS)
+                                           verbose_name='Актуално състояние на книгата',
+                                           choices=BOOK_CURRENT_STATUS)
 
     # Section Identification
     catalog_num = models.CharField(max_length=100, verbose_name='Вътрешен каталожен номер',
@@ -222,7 +232,6 @@ class Book(models.Model):
 
     # FIXME - on le update ou on le calcume selon l'histoire du truc
     has_been_rented_times = models.PositiveSmallIntegerField(blank=True, verbose_name='Заемана пъти', null=True)
-
 
     # Uploading each file in a separate file path by a pk and book name
     def file_upload_path(self, filename):

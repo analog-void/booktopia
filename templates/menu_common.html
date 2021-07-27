@@ -133,14 +133,8 @@
                     <li>
                         <a class="dropdown-item" href="#">Близо до Мен</a>
                     </li>
-
-
                 </ul>
-
-
             </li>
-
-
         </ul>
 
 
@@ -165,13 +159,32 @@
                 </li>
             </ul>
 
-            <!-- Left links -->
-            <div class="d-flex align-items-center">
-                <button type="button" class="btn btn-link px-3 me-2">
-                    Login
-                </button>
+            <!-- Left Profile / Login links -->
+            {% if request.user.is_authenticated %}
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-link px-3 me-2">
+                        {# TODO Fix the link #}
+                        <a href="{% url 'sign out' %}">Profile</a>
+                    </button>
 
-            </div>
+                    <button type="button" class="btn btn-link px-3 me-2">
+                        <a href="{% url 'sign out' %}">Sign out</a>
+                    </button>
+
+                </div>
+
+            {% else %}
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-link px-3 me-2">
+                        <a href="{% url 'sign in' %}">Sign in</a>
+                    </button>
+
+                    <button type="button" class="btn btn-link px-3 me-2">
+                        <a href="{% url 'sign up' %}">Sign up</a>
+                    </button>
+                </div>
+            {% endif %}
+
         </div>
         <!-- Collapsible wrapper -->
     </div>
