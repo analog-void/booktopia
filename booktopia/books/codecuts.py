@@ -313,3 +313,8 @@ class ProductPriceInlineAdminView(admin.TabularInline):
 
 """
 
+<input
+type="{{ widget.type }}"
+name="{{ widget.name }}"{% if widget.value != None %}
+value="{{ widget.value|stringformat:'s' }}"{% endif %}
+{% include "django/forms/widgets/attrs.html" %}>

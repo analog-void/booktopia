@@ -27,8 +27,8 @@ used_resources.txt
 
 class Author(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-    first_name = models.CharField(max_length=25, verbose_name='Име', unique=True)
-    last_name = models.CharField(max_length=25, verbose_name='Фамилия', unique=True)
+    first_name = models.CharField(max_length=25, verbose_name='Име',)
+    last_name = models.CharField(max_length=25, verbose_name='Фамилия', )
     pseudonym = models.CharField(max_length=25, verbose_name='Псевдоним', unique=True, null=True)
 
     date_of_birth = models.DateField(verbose_name='Рожденна Дата', blank=True, null=True)
@@ -240,11 +240,13 @@ class Book(models.Model):
 
     cover_front = models.ImageField(upload_to=file_upload_path, verbose_name='Корица',
                                     null=True, blank=True,
-                                    help_text="Моля, изберете снимка")
+                                    # help_text="Моля, изберете снимка"
+                                    )
 
     cover_back = models.ImageField(upload_to=file_upload_path, verbose_name='Гръб',
                                    null=True, blank=True,
-                                   help_text="Моля, изберете снимка")
+                                   # help_text="Моля, изберете снимка"
+                                   )
 
     @property
     def cover_front_url(self):
@@ -296,7 +298,7 @@ class Book(models.Model):
     book_reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE,
                                      verbose_name='Ревюта', blank=True, null=True)
     owner = models.ForeignKey(Owner, on_delete=models.RESTRICT,
-                              verbose_name='Собственик', null=False)
+                              verbose_name='Собственик', null=True)
 
     # Random string generator for the QR code
     def qr_code_gen(self, request_type=None):
