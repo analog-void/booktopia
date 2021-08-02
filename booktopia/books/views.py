@@ -1,4 +1,4 @@
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from booktopia.books.forms import AddBookForm, EditBookForm, BookCommentForm
@@ -29,18 +29,19 @@ def book_detail(request, pk):
     return render(request, 'books/book_detail.html', context)
 
 
-# @login_required
+@login_required
 def add_book(request):
-    # form = AddBookForm()
     if request.method == "POST":
         form = AddBookForm(request.POST, request.FILES)
-        print(form)
         if form.is_valid():
-            # TODO: a tester si c'est le bon truc - 1:38:00
             book = form.save(commit=False)
+            # book = Book.objects.get(pk=Book.pk)
             book.user = request.user
+
+            book.cover_front = form.cleaned_data['cover_front']
+            book.cover_back = form.cleaned_data['cover_back']
+
             book.save()
-            # form.save()
             return redirect('all my books table')
 
     else:
@@ -53,7 +54,7 @@ def add_book(request):
     return render(request, 'books/book_add.html', context)
 
 
-# @login_required
+@login_required
 def edit_book(request, pk):
     book = Book.objects.get(pk=pk)
     if request.method == "POST":
@@ -72,7 +73,7 @@ def edit_book(request, pk):
     return render(request, 'books/book_edit.html', context)
 
 
-# @login_required
+@login_required
 def delete_book(request, pk):
     book = Book.objects.get(pk=pk)
     if request.method == "POST":
@@ -96,6 +97,7 @@ def like_book(request, pk):
 """
 
 
+@login_required
 def book_comment(request, pk):
     form = BookCommentForm(request.POST)
     if form.is_valid():

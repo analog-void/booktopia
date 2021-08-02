@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.html import mark_safe  # for Image Tags and book previews
+from django.utils.text import slugify
 
 from booktopia.book_owners.models import Owner
 from booktopia.common.countries import COUNTRIES_BG, LANGUAGES_BG
@@ -27,7 +28,7 @@ used_resources.txt
 
 class Author(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-    first_name = models.CharField(max_length=25, verbose_name='Име',)
+    first_name = models.CharField(max_length=25, verbose_name='Име', )
     last_name = models.CharField(max_length=25, verbose_name='Фамилия', )
     pseudonym = models.CharField(max_length=25, verbose_name='Псевдоним', unique=True, null=True)
 
@@ -164,6 +165,7 @@ class Book(models.Model):
 
     edition_lang = models.CharField(max_length=3, choices=LANGUAGES_BG,
                                     verbose_name='Език на изданието',
+                                    default='Български език',
                                     blank=True)
 
     edition_lang_orig = models.CharField(max_length=3, choices=LANGUAGES_BG,
@@ -238,13 +240,16 @@ class Book(models.Model):
         book_id = str(self.pk)
         return "book_images/" + book_id + "/" + filename
 
+
     cover_front = models.ImageField(upload_to=file_upload_path, verbose_name='Корица',
                                     null=True, blank=True,
+                                    default='/static/generic/generic-book-2.png'
                                     # help_text="Моля, изберете снимка"
                                     )
 
     cover_back = models.ImageField(upload_to=file_upload_path, verbose_name='Гръб',
                                    null=True, blank=True,
+                                   default='/static/generic/generic-book-2.png'
                                    # help_text="Моля, изберете снимка"
                                    )
 

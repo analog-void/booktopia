@@ -18,5 +18,6 @@ https://pypi.org/project/qrcode/
 ## Admin image preview:
 https://stackoverflow.com/questions/16307307/django-admin-show-image-from-imagefield
 
-
+## Django Widgets
+https://docs.djangoproject.com/en/3.2/ref/forms/widgets/#widget
 

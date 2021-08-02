@@ -1,35 +1,248 @@
 {% extends 'core_template.html' %}
-
-
+{% load widget_tweaks %}
 
 {% block content_main %}
 
+
     <div class="container">
         <form action="{% url 'add new book' %}"
-              class="w-50 m-auto" method="post"
+              class="w-50 m-auto needs-validation"
+              method="post"
               enctype="multipart/form-data">
-            <h2>Добави нова книга - Задължителна информация</h2>
+
+            <div class="text-center mt-2 mb-2 text-warning"
+                 style="height: 50px;">
+                <h4>Задължителна информация</h4>
+            </div>
+
             {% csrf_token %}
-            {{ form }}
+
+            <div class="form-outline">
+                <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=150' }}
+                <label class="form-label" for="id_{{ form.name.name }}">{{ form.name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.author_name }}
+                <label class="form-label"
+                       for="id_{{ form.author_name.name }}">{{ form.author_name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.editions }}
+                <label class="form-label"
+                       for="id_{{ form.editions.name }}">{{ form.editions.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline">
+                {{ form.synopsis|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=2500' }}
+                <label class="form-label" for="id_{{ form.synopsis.name }}">{{ form.synopsis.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.visual_condition }}
+                <label class="form-label"
+                       for="id_{{ form.visual_condition.name }}">Физическо състояние</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-dollar-sign trailing"></i>
+                {{ form.price_for_rent|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+                <label class="form-label"
+                       for="id_{{ form.price_for_rent.name }}">{{ form.price_for_rent.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.release_year|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=150'|append_attr:'placeholder="Година на настоящото издание"' }}
+                <label class="form-label" for="id_{{ form.release_year.name }}">
+                    {{ form.release_year.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-5">
+                <i class="fas fa-image trailing"></i>
+                {{ form.cover_front|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=false'|append_attr:'maxlength=150' }}
+                <label class="form-label" for="id_{{ form.cover_front.name }}"></label>
+                <div class="form-helper">Смика на корицата</div>
+            </div>
+
+            <div class="form-outline mt-5">
+                <i class="fas fa-image trailing"></i>
+                {{ form.cover_back|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=false'|append_attr:'maxlength=150' }}
+                <label class="form-label" for="id_{{ form.cover_back.name }}"></label>
+                <div class="form-helper">Снимка на гърба на книгата</div>
+            </div>
+
+
+            {# Допълнителна информация #}
+
+            <div class="text-center mt-5 text-primary"
+                 style="height: 50px;">
+                <h4>Допълнителна информация</h4>
+            </div>
+
+
+            {# Checkbox #}
+            <div class="form-check form-switch mt-4">
+                {{ form.is_for_sale }}
+                <label class="form-check-label"
+                       for="id_{{ form.is_for_sale.name }}">Книгата е може да бъде закупена.</label>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="far fa-dollar-sign trailing"></i>
+                {{ form.price_for_sell|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+
+                <label class="form-label"
+                       for="id_{{ form.price_for_sell.name }}">{{ form.price_for_sell.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="far fa-question-circle trailing"></i>
+                {{ form.series|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=50' }}
+                <label class="form-label" for="id_{{ form.series.name }}">Серия, поредица или цикъл</label>
+                <div class="form-helper"></div>
+            </div>
+
+            <div class="mt-5">
+                <hr>
+            </div>
+
+            {# Checkbox #}
+            <div class="form-check form-switch mt-4">
+                {{ form.translated }}
+                <label class="form-check-label"
+                       for="id_{{ form.translated.name }}">Преведена от чужд език.</label>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.edition_lang_orig }}
+                <label class="form-label"
+                       for="id_{{ form.edition_lang_orig.name }}">{{ form.edition_lang_orig.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="far fa-question-circle trailing"></i>
+                {{ form.original_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=50' }}
+                <label class="form-label"
+                       for="id_{{ form.original_name.name }}">{{ form.original_name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.edition_lang }}
+                <label class="form-label"
+                       for="id_{{ form.edition_lang.name }}">Език на настоящото издание</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="mt-4">
+                {{ form.release_number }}
+                <label class="form-label"
+                       for="id_{{ form.release_number.name }}">{{ form.release_number.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+            <div class="mt-5">
+                <hr>
+            </div>
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-file-alt trailing"></i>
+                {{ form.pages_count|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+                <label class="form-label"
+                       for="id_{{ form.pages_count.name }}">{{ form.pages_count.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-border-none trailing"></i>
+                {{ form.measure_x|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+                <label class="form-label"
+                       for="id_{{ form.measure_x.name }}">{{ form.measure_x.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-border-none trailing"></i>
+                {{ form.measure_y|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+                <label class="form-label"
+                       for="id_{{ form.measure_y.name }}">{{ form.measure_y.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-balance-scale trailing"></i>
+                {{ form.weight_grams|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=4' }}
+                <label class="form-label"
+                       for="id_{{ form.weight_grams.name }}">Тегло на книгата в грамове</label>
+                <div class="form-helper"></div>
+            </div>
+
+            <div class="mt-5">
+                <hr>
+            </div>
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-book trailing"></i>
+                {{ form.isbn_code|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=20' }}
+                <label class="form-label"
+                       for="id_{{ form.isbn_code.name }}">ISBN Каталожен номер</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-book trailing"></i>
+                {{ form.oclc_code|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=20' }}
+                <label class="form-label"
+                       for="id_{{ form.oclc_code.name }}">OCLC Каталожен номер</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            {# Checkbox #}
+            <div class="form-check form-switch mt-4">
+                {{ form.is_hidden }}
+                <label class="form-check-label"
+                       for="id_{{ form.is_hidden.name }}">Книгата няма да се показва в системата
+                    (скрита).</label>
+            </div>
+
             {{ form.errors }}
 
-            {% comment %}
-            {% for field in form %}
-                <div class="form-outline">
-{#                    {{ field }}#}
-{#                    {{ field.label }}#}
-                    <input type="{{ field.widget_type }}" id="{{ field.id_for_label }}" class="form-control"/>
-                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                </div>
-                <br>
-            {% endfor %}
+            <div class="text-center mt-4">
 
-{% endcomment %}
-            <div class="container">
-                <br>
-                <button type="submit" class="btn btn-rounded btn-outline-primary">Добави книга</button>
+                <button type="submit" class="btn btn-rounded btn-outline-primary">Добави нова книга</button>
             </div>
         </form>
     </div>
 
 {% endblock %}
+

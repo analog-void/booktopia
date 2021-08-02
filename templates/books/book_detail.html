@@ -19,6 +19,8 @@
                aria-controls="ex3-tabs-1"
                aria-selected="true">Обща информация</a>
         </li>
+
+
         <li class="nav-item" role="presentation">
             <a class="nav-link"
                id="ex3-tab-2"
@@ -26,8 +28,9 @@
                href="#ex3-tabs-2"
                role="tab"
                aria-controls="ex3-tabs-2"
-               aria-selected="false">Заемания</a>
+               aria-selected="false">Резервации</a>
         </li>
+
         <li class="nav-item" role="presentation">
             <a class="nav-link"
                id="ex3-tab-3"
@@ -35,7 +38,7 @@
                href="#ex3-tabs-3"
                role="tab"
                aria-controls="ex3-tabs-3"
-               aria-selected="false">Движения</a>
+               aria-selected="false">Минали заемания</a>
         </li>
 
         <li class="nav-item" role="presentation">
@@ -44,8 +47,8 @@
                data-mdb-toggle="tab"
                href="#ex3-tabs-4"
                role="tab"
-               aria-controls="ex3-tabs-3"
-               aria-selected="false">Коментари</a>
+               aria-controls="ex3-tabs-4"
+               aria-selected="false">Движения</a>
         </li>
 
         <li class="nav-item" role="presentation">
@@ -55,6 +58,16 @@
                href="#ex3-tabs-5"
                role="tab"
                aria-controls="ex3-tabs-5"
+               aria-selected="false">Коментари</a>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-6"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-6"
+               role="tab"
+               aria-controls="ex3-tabs-6"
                aria-selected="false">Ревюта</a>
         </li>
 
@@ -70,7 +83,7 @@
 
             {# TAB 2 content #}
             {# Section Info 1 #}
-            <div class="container align-content-md-center text-center">
+            <div class="container align-content-md-center text-center mt-5">
                 <div class="row">
                     <div class="col-md">
                         <p>Име на Книгата</p>
@@ -91,7 +104,7 @@
             <hr>
 
             {# Photos #}
-            <div class="container text-center">
+            <div class="container text-center mt-lg-4">
                 <div class="row">
                     <div class="col-md">
                         <p>Снимка Корица</p>
@@ -109,7 +122,7 @@
             <hr>
 
             {# Section Info 2 #}
-            <div class="container align-content-md-center text-center">
+            <div class="container align-content-md-center text-center mt-lg-4">
                 <div class="row">
                     <div class="col-md">
                         <p>Година на изданието</p>
@@ -143,7 +156,7 @@
             <hr>
 
             {# Section Info 3 #}
-            <div class="container align-content-md-center text-center">
+            <div class="container align-content-md-center text-center mt-lg-4">
                 <div class="row">
                     <div class="col-md">
                         <p>Вътрешен каталожен номер</p>
@@ -180,9 +193,6 @@
              role="tabpanel"
              aria-labelledby="ex3-tab-2">
             Tab 2 content
-
-
-
         </div>
 
 
@@ -193,6 +203,7 @@
              aria-labelledby="ex3-tab-3">
             Tab 3 content
         </div>
+
 
         {# TAB 4 content #}
         <div class="tab-pane fade"
@@ -208,6 +219,14 @@
              role="tabpanel"
              aria-labelledby="ex3-tab-5">
             Tab 5 content
+        </div>
+
+        {# TAB 6 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-6"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-6">
+            Tab 6 content
         </div>
 
 

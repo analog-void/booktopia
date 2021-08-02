@@ -47,18 +47,32 @@ class AddBookForm(forms.ModelForm, BootstrapFormMixin):
         self._init_bootstrap()  # cela on peut l'eviter
 
         self.fields['name'].widget.attrs.update({'placeholder': 'Пълно име',
-                                                 'title': 'New title',
-                                                 'aria-describedby': "textExample1"})
-        self.fields['price_for_rent'].widget.attrs.update({'placeholder': 'Минимална стойност: 1 лев',
-                                                           'value': ''})
-        self.fields['synopsis'].widget.attrs.update({'placeholder': 'Кратко и привлекателно описание на книгата',
-                                                     'rows': 7,})
+                                                 'title': 'Пълно име', })
 
-# TODO: a ajouter plusieurs auteurs par livre,
-# agrandir le synopsis
-# Стойност на гаранцията (лв.): - Add value
-# Release year - DATE type
-#
+        self.fields['price_for_rent'].widget.attrs.update({'placeholder': 'Минимална стойност: 1 лев',
+                                                           'value': '1.00'})
+
+        self.fields['synopsis'].widget.attrs.update(
+            {'placeholder': 'Кратко читателско описание на съдържанието на книгата',
+             'rows': 7, })
+
+        self.fields['is_for_sale'].widget.attrs.update({'class': 'form-check-input', })
+        self.fields['translated'].widget.attrs.update({'class': 'form-check-input', })
+        self.fields['is_hidden'].widget.attrs.update({'class': 'form-check-input', })
+
+        self.fields['cover_front'].widget.attrs.update({'class': '', })
+        self.fields['cover_back'].widget.attrs.update({'class': '', })
+
+
+        # self.fields['cover_front'].widget.attrs.update({'class': 'form-check-input', })
+        # self.fields['cover_back'].widget.attrs.update({'class': 'form-check-input', })
+
+
+    # TODO: a ajouter plusieurs auteurs par livre,
+    # agrandir le synopsis
+    # Стойност на гаранцията (лв.): - Add value
+    # Release year - DATE type
+    #
     class Meta:
         model = Book
         # required_css_class = 'required'
@@ -73,21 +87,28 @@ class AddBookForm(forms.ModelForm, BootstrapFormMixin):
                   'release_year',
                   'cover_front',
                   'cover_back',
+
+                  # ADDITIONAL FIELDS
+                  'is_for_sale',
+                  'price_for_sell',
+                  'is_hidden',
+                  'series',
+                  'translated',
+                  'original_name',
+                  'edition_lang',
+                  'release_number',
+
+                  'edition_lang_orig',
+
+                  'pages_count',
+                  'measure_x',
+                  'measure_y',
+                  'weight_grams',
+
+                  'isbn_code',
+                  'oclc_code',
                   )
 
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control',
-                                           'title': "test label",
-                                           'placeholder': 'Enter todo text',
-                                           'required': True,
-                                           "template_name": None,
-                                           },
-                                    ),
-
-            'synopsis': forms.Textarea(attrs={'class': 'form-control', 'rows': 7}),
-
-            # attrs={'class': 'form-control'}),  # queryset=Book.objects.all(),
-        }
 
 
 # class AddBookForm(forms.Form):
@@ -110,3 +131,20 @@ class EditBookForm(forms.Form):
 
 class BookCommentForm(forms.Form):
     pass
+
+
+"""
+widgets = {
+    'name': forms.TextInput(attrs={'class': 'form-control',
+                                   'title': "test label",
+                                   'placeholder': 'Enter todo text',
+                                   'required': True,
+                                   "template_name": None,
+                                   },
+                            ),
+
+    'synopsis': forms.Textarea(attrs={'class': 'form-control', 'rows': 7}),
+
+    attrs={'class': 'form-control'}),  # queryset=Book.objects.all(),
+}
+"""

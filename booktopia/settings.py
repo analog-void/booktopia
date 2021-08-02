@@ -33,8 +33,9 @@ INSTALLED_APPS = [
     'booktopia.book_hubs',
     'booktopia.book_runners',
     # TODO: Financial Movements
+
     # OTHER APPS
-    'django_tables2',
+    'widget_tweaks',
 
 ]
 
