@@ -6,141 +6,31 @@ from datetime import datetime
 import qrcode
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
-from django.db import models
+# from django.db import models
 from django.utils.html import mark_safe  # for Image Tags and book previews
-from django.utils.text import slugify
+#
+from taggit.managers import TaggableManager
 
 from booktopia.book_owners.models import Owner
-from booktopia.common.countries import COUNTRIES_BG, LANGUAGES_BG
+from booktopia.common.countries import LANGUAGES_BG
 from booktopia.common.general_choices import BOOK_RELEASE, BOOK_CONDITION, BOOK_CURRENT_STATUS
 from booktopia.settings import MEDIA_ROOT
+#
+# IMPORTING SPLITED INITIAL MODEL FILE
+from .submodels.authors_model import *
+from .submodels.editions_model import *
+# from .submodels.comments_model import *
+#
+from .submodels.rent_history_model import *
+from .submodels.reservations_model import *
+from .submodels.reviews_model import *
+from .submodels.status_model import *
 
+#
 # from .validators import validate_min_rent, validate_min_sell, validate_rent_price, validate_sell_price
 
+
 UserModel = get_user_model()
-
-"""
-Sources of help and research used while developing this file check 
-used_resources.txt
-
-"""
-
-
-class Author(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-    first_name = models.CharField(max_length=25, verbose_name='Име', )
-    last_name = models.CharField(max_length=25, verbose_name='Фамилия', )
-    pseudonym = models.CharField(max_length=25, verbose_name='Псевдоним', unique=True, null=True)
-
-    date_of_birth = models.DateField(verbose_name='Рожденна Дата', blank=True, null=True)
-    date_of_death = models.DateField(verbose_name='Починал на', blank=True, null=True)
-
-    nationality = models.CharField(max_length=25, verbose_name='Националност', null=True)
-    wiki_page = models.URLField(max_length=150, null=True, blank=True,
-                                verbose_name="Страница в Уикипедиа или Биография")
-
-    # TODO: Present age or dead at x years. Check if the authos if older than 100 years, then makt it as dead
-
-    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
-    #                                          null=True, verbose_name='Дата на създаване на записа')
-    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
-    #                                          null=True, verbose_name='Дата на промяна на записа')
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-    class Meta:
-        verbose_name = 'Автор'
-        verbose_name_plural = 'Автори'
-        ordering = 'first_name', 'last_name'
-
-
-class Editions(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Име', unique=True)
-    address = models.TextField(verbose_name='Пощенски адрес', blank=True)
-    country = models.CharField(max_length=100, verbose_name='Държава', choices=COUNTRIES_BG)
-
-    # FIXME - a revoir bien les pats de uploads
-    logo = models.ImageField(upload_to='', blank=True)
-    stars = models.PositiveSmallIntegerField(default=0, null=True)
-    web_address = models.URLField(max_length=150, null=True, blank=True, verbose_name="Уеб Сайт")
-
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-
-    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
-    #                                          null=True, verbose_name='Дата на създаване на записа')
-    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
-    #                                          null=True, verbose_name='Дата на промяна на записа')
-
-    def __str__(self):
-        return self.name.upper()
-
-    class Meta:
-        verbose_name = 'Издателство'
-        verbose_name_plural = 'Издателства'
-        ordering = ("name",)
-
-
-class RentHistory(models.Model):
-    # timestamp_from = models.DateTimeField(auto_created=True)
-    timestamp_to = models.DateField()
-    by_user = models.IntegerField()
-    # rent_duration = models
-    rent_event_comment = models.TextField()
-    degradations = models.TextField()
-
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-
-
-class StatusHistory(models.Model):
-    pass
-
-
-# TODO : a voir comment on peut le faire avec les addons de DJango
-# class Tags():
-#     pass
-
-class Comments(models.Model):
-    # timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
-    user_id_num = models.IntegerField(default=0)
-    book_id_num = models.IntegerField(unique=True, blank=True)
-
-    comment = models.TextField(verbose_name='Съдържание на кометара', null=True)
-    up_votes_count = models.PositiveSmallIntegerField(default=0)
-    down_votes_count = models.PositiveSmallIntegerField(default=0)
-
-    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
-    #                                          null=True, verbose_name='Дата на създаване на записа')
-    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
-    #                                          null=True, verbose_name='Дата на промяна на записа')
-
-    # def __str__(self):
-    #     return str(self.timestamp)
-
-    class Meta:
-        verbose_name = 'Коментар'
-        verbose_name_plural = 'Коментари'
-
-
-class Reviews(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата-час')
-    user_id = models.PositiveIntegerField()
-    book_id = models.PositiveIntegerField(default=0)
-
-    review = models.TextField(verbose_name='Съдържание на ревюто', null=True)
-    rating = models.PositiveSmallIntegerField(verbose_name='Рейтинг')
-
-    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
-    #                                          null=True, verbose_name='Дата на създаване на записа')
-    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
-    #                                          null=True, verbose_name='Дата на промяна на записа')
-
-    def __str__(self):
-        return str(self.timestamp.date())
-
-    class Meta:
-        verbose_name = 'Ревю'
-        verbose_name_plural = 'Ревюта'
 
 
 class Book(models.Model):
@@ -240,7 +130,6 @@ class Book(models.Model):
         book_id = str(self.pk)
         return "book_images/" + book_id + "/" + filename
 
-
     cover_front = models.ImageField(upload_to=file_upload_path, verbose_name='Корица',
                                     null=True, blank=True,
                                     default='/static/generic/generic-book-2.png'
@@ -288,7 +177,7 @@ class Book(models.Model):
     # FIXME: a le faire en readonly ou le cacher
     generated_qr_code_content = models.CharField(max_length=100, default=None,
                                                  null=True, blank=True, )
-
+    tags = TaggableManager()
     #
     # Foreign keys
     author_name = models.ForeignKey(Author, on_delete=models.RESTRICT,
@@ -298,8 +187,8 @@ class Book(models.Model):
     book_transportation_history = models.ForeignKey(StatusHistory, on_delete=models.RESTRICT,
                                                     verbose_name='История на транспортиранията', blank=True, null=True)
     # to_field='book_id',
-    book_comments = models.ForeignKey(Comments, on_delete=models.CASCADE,
-                                      verbose_name='Коментари', blank=True, null=True, )
+    # book_comments = models.ForeignKey(Comments, on_delete=models.CASCADE,
+    #                                   verbose_name='Коментари', blank=True, null=True, )
     book_reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE,
                                      verbose_name='Ревюта', blank=True, null=True)
     owner = models.ForeignKey(Owner, on_delete=models.RESTRICT,
@@ -375,3 +264,30 @@ class Book(models.Model):
 
         # TODO: Pillow to QR - ADD id, Tag the upl image, resize, crop etc
         super(Book, self).save(*args, **kwargs)
+
+
+class Comments(models.Model):
+    # timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
+    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    # user_id_num = models.IntegerField(default=0)
+    # book_id_num = models.IntegerField(unique=True, blank=True)
+
+    comment = models.TextField(verbose_name='Съдържание на кометара', null=True)
+
+    # TODO: A les sortir dans un modele ou app separee
+    up_votes_count = models.PositiveSmallIntegerField(default=0)
+    down_votes_count = models.PositiveSmallIntegerField(default=0)
+
+    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
+    #                                          null=True, verbose_name='Дата на създаване на записа')
+    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
+    #                                          null=True, verbose_name='Дата на промяна на записа')
+
+    # def __str__(self):
+    #     return str(self.timestamp)
+
+    class Meta:
+        verbose_name = 'Коментар'
+        verbose_name_plural = 'Коментари'

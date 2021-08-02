@@ -1,0 +1,30 @@
+- Authors(model)  - една книга може да има повече от 1 автор, посоката на РЕЛ в ДБ трябва да се обърне
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TODO:
+is_owner in books = да се сложи преди бутоните
+reviews - a les finir
+    voir comment sa se passe dans le modele en relation avec
+
+- A fusionner comments and reviews tout simplement
+le review est fait par l'editeur
+
+- mettre un bouton qui affiche une boule d'aide a cote des chaps - un popup?
+
+

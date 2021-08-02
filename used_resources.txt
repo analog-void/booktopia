@@ -21,3 +21,7 @@ https://stackoverflow.com/questions/16307307/django-admin-show-image-from-imagef
 ## Django Widgets
 https://docs.djangoproject.com/en/3.2/ref/forms/widgets/#widget
 
+## Splitted Models;
+https://stackoverflow.com/questions/6336664/split-models-py-into-several-files
+
+ 

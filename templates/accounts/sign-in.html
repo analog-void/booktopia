@@ -1,19 +1,17 @@
 {% extends 'core_template.html' %}
-
+{% block title %}Вход{% endblock %}
 
 {% block content_main %}
 
     <div class="container">
         <form action="{% url 'sign in' %}" class="w-50 m-auto" method="post">
-            <h2>Login</h2>
+            <h2>Вход</h2>
             {% csrf_token %}
             {{ form }}
             {{ form.errors }}
 
-            <button type="submit" class="btn btn-rounded btn-outline-primary">Sign in</button>
+            <button type="submit" class="btn btn-rounded btn-outline-primary">Вход</button>
         </form>
-
-
     </div>
 
 

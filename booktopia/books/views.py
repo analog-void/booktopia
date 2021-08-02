@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from booktopia.books.forms import AddBookForm, EditBookForm, BookCommentForm
-from booktopia.books.models import Book
+from booktopia.books.models import Book, Comments
 
 
 def index(request):
@@ -16,6 +16,7 @@ def show_all_books(request):
 
 def book_detail(request, pk):
     book = Book.objects.get(pk=pk)
+    comment = Comments.objects.all()
 
     # can_edit = book.user == request.user
     # can_delete = book.user == request.user
@@ -24,6 +25,7 @@ def book_detail(request, pk):
     context = {
         "book": book,
         'is_owner': is_owner,
+        'comment': comment,
 
     }
     return render(request, 'books/book_detail.html', context)

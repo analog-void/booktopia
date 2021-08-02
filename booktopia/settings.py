@@ -36,6 +36,8 @@ INSTALLED_APPS = [
 
     # OTHER APPS
     'widget_tweaks',
+    'taggit',
+
 
 ]
 

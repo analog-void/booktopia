@@ -179,7 +179,7 @@
             <div class="d-flex flex-column mb-3 align-items-center">
                 <div class="p-2 align-items-center">
                     <a href="{% url 'add new book' %}" class="btn btn-outline-dark ">
-                            Промени Съдържанието
+                        Промени Съдържанието
                     </a>
                 </div>
             </div>
@@ -192,7 +192,13 @@
              id="ex3-tabs-2"
              role="tabpanel"
              aria-labelledby="ex3-tab-2">
-            Tab 2 content
+
+            {% for foo in comment %}
+
+                <p class="text-center text-">{{ foo.user_id }} {{ foo.book_id }} {{ foo.comment }} {{ foo.pk }}</p>
+            {% endfor %}
+
+
         </div>
 
 

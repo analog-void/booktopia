@@ -1,5 +1,5 @@
 from booktopia.books.models import Book, Author, Editions, RentHistory, StatusHistory, Reviews, Comments
-from booktopia.common.admin_common_fields import book_common_fields, book_comment_fields
+from booktopia.common.admin_common_fields import book_common_fields
 from booktopia.common.admin_settings import *
 
 
@@ -43,6 +43,8 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 #################
+# FIXME: Comment admin
+"""
 class CommentInline(admin.StackedInline):
     model = Book
     extra = 0
@@ -59,13 +61,13 @@ class CommentAdmin(admin.ModelAdmin):
 
     fieldsets = book_comment_fields
 
-    # readonly_fields = ('record_created_at', 'record_updated_at')
-
+    #### readonly_fields = ('record_created_at', 'record_updated_at')
+"""
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
-admin.site.register(Comments, CommentAdmin)
-# admin.site.register(Comments)
+# admin.site.register(Comments, CommentAdmin)
+admin.site.register(Comments)
 
 admin.site.register(Editions)
 admin.site.register(RentHistory)

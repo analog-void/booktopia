@@ -25,17 +25,18 @@ book_common_fields = (
     }),
 
     ('Оценка', {
-        'fields': ('synopsis', 'notes', 'book_comments', 'book_reviews',)
+        'fields': ('synopsis', 'notes', 'book_reviews',)
     }),
 
     ('Медия', {
         'fields': (
             'cover_front',
             # FIXME: A voir pourquoi le truc plante
-            # 'image_cover_front',
+            'image_cover_front',
             'cover_back',
-            # 'image_cover_back',
-            'generated_qr_code_image',)
+            'image_cover_back',
+            'generated_qr_code_image',
+            'tags')
     }),
 
     ('Други', {
@@ -45,19 +46,20 @@ book_common_fields = (
                    ('has_been_rented_times', 'generated_qr_code_content'),
                    ('book_rent_history', 'book_transportation_history'),
 
-                   # FIXME: Bordel de bug!
+                   # FIXME: Timestams in ADMIN bug ....
                    # ('record_created_at', 'record_updated_at'),
                    )
     }))
 
-book_comment_fields = (
-    ('Коментар', {
-        'fields': (('user_id_num', 'book_id_num'),
-                   'comment',
-                   ('up_votes_count', 'down_votes_count'),
-                   # 'timestamp',
-                   )
-    }),
-)
+# FIXME: Comments
+# book_comment_fields = (
+#     ('Коментар', {
+#         'fields': (('user_id', 'book_id'),
+#                    'comment',
+#                    ('up_votes_count', 'down_votes_count'),
+#                    # 'timestamp',
+#                    )
+#     }),
+# )
 
 # owner_common_fields = ()
