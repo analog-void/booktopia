@@ -36,7 +36,7 @@ book_common_fields = (
             'cover_back',
             'image_cover_back',
             'generated_qr_code_image',
-            'tags')
+            'tags',)
     }),
 
     ('Други', {

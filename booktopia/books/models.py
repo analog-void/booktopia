@@ -74,7 +74,7 @@ class Book(models.Model):
 
     isbn_code = models.CharField(max_length=15, verbose_name='ISBN', blank=True, null=True)
 
-    # TODO - Con avec un API?
+
     oclc_code = models.CharField(max_length=15, verbose_name='OCLC', blank=True, null=True)
 
     synopsis = models.TextField(blank=True, null=True, verbose_name='Синопсис')
@@ -147,7 +147,7 @@ class Book(models.Model):
         try:
             url = self.cover_front.url
         except:
-            url = '/static/generic/generic-book-2.png'
+            url = 'generic/generic-book-2.png'
         return url
 
     @property
@@ -155,7 +155,7 @@ class Book(models.Model):
         try:
             url = self.cover_back.url
         except:
-            url = '/static/generic/generic-book-2.png'
+            url = 'generic/generic-book-2.png'
         return url
 
     # FIXME: a voir comment le manque d'image joue dans l'admin
@@ -177,7 +177,8 @@ class Book(models.Model):
     # FIXME: a le faire en readonly ou le cacher
     generated_qr_code_content = models.CharField(max_length=100, default=None,
                                                  null=True, blank=True, )
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True,
+                           verbose_name='Тагове, разделени със запетайка',)
     #
     # Foreign keys
     author_name = models.ForeignKey(Author, on_delete=models.RESTRICT,

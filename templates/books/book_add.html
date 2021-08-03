@@ -1,8 +1,16 @@
 {% extends 'core_template.html' %}
 {% load widget_tweaks %}
 
-{% block content_main %}
+{% block meta_description %}{% endblock %}
+{% block meta_content %}{% endblock %}
+{% block title %}Добави нова книга{% endblock %}
 
+{% block css_head %}
+    {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
+    <link rel="stylesheet" href="/static/css/bootstrap-tagsinput.css"/>
+{% endblock %}
+
+{% block content_main %}
 
     <div class="container">
         <form action="{% url 'add new book' %}"
@@ -235,6 +243,16 @@
                     (скрита).</label>
             </div>
 
+            {# TAGS - super stranges #}
+            <div class="form-outline mt-4">
+                <i class="fas fa-book trailing"></i>
+                {{ form.tags|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=false'|append_attr:'maxlength=200'|append_attr:'data-role=tagsinput' }}
+                <label class="form-label"
+                       for="id_{{ form.tags.name }}">Tагове, разделени със спейс или запетайка</label>
+                <div class="form-helper"></div>
+            </div>
+
+
             {{ form.errors }}
 
             <div class="text-center mt-4">
@@ -246,3 +264,20 @@
 
 {% endblock %}
 
+{% block js_body_bottom %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <script src="/static/js/bootstrap-tagsinput.min.js"></script>
+    <script>
+        $("#post-form").submit(function (e) {
+            e.preventDefault();
+        });</script>
+{% endblock %}

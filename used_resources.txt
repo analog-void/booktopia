@@ -8,7 +8,6 @@ https://stackoverflow.com/questions/4320679/django-display-choice-value
 ## property for image URL in template / admin
 https://github.com/matthewwithanm/django-imagekit/issues/254
 
-
 ## Create folders with os:
 https://stackoverflow.com/questions/3437798/create-directory-while-upload-using-django
 
@@ -23,5 +22,12 @@ https://docs.djangoproject.com/en/3.2/ref/forms/widgets/#widget
 
 ## Splitted Models;
 https://stackoverflow.com/questions/6336664/split-models-py-into-several-files
+
+## DJANGO TAGGIT
+https://dev.to/coderasha/how-to-add-tags-to-your-models-in-django-django-packages-series-1-3704
+
+https://github.com/jazzband/django-taggit
+
+
 
  

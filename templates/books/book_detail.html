@@ -3,8 +3,8 @@
 
 {% block meta_description %}{% endblock %}
 {% block meta_content %}{% endblock %}
-{% block title %}Детайлна информация за книга{% endblock %}
 
+{% block title %}Детайлна информация за книга{% endblock %}
 
 {% block content_main %}
 
@@ -31,25 +31,27 @@
                aria-selected="false">Резервации</a>
         </li>
 
-        <li class="nav-item" role="presentation">
-            <a class="nav-link"
-               id="ex3-tab-3"
-               data-mdb-toggle="tab"
-               href="#ex3-tabs-3"
-               role="tab"
-               aria-controls="ex3-tabs-3"
-               aria-selected="false">Минали заемания</a>
-        </li>
+        {% if is_owner %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   id="ex3-tab-3"
+                   data-mdb-toggle="tab"
+                   href="#ex3-tabs-3"
+                   role="tab"
+                   aria-controls="ex3-tabs-3"
+                   aria-selected="false">Минали заемания</a>
+            </li>
 
-        <li class="nav-item" role="presentation">
-            <a class="nav-link"
-               id="ex3-tab-4"
-               data-mdb-toggle="tab"
-               href="#ex3-tabs-4"
-               role="tab"
-               aria-controls="ex3-tabs-4"
-               aria-selected="false">Движения</a>
-        </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   id="ex3-tab-4"
+                   data-mdb-toggle="tab"
+                   href="#ex3-tabs-4"
+                   role="tab"
+                   aria-controls="ex3-tabs-4"
+                   aria-selected="false">Движения</a>
+            </li>
+        {% endif %}
 
         <li class="nav-item" role="presentation">
             <a class="nav-link"
@@ -61,6 +63,8 @@
                aria-selected="false">Коментари</a>
         </li>
 
+        {% comment %}
+
         <li class="nav-item" role="presentation">
             <a class="nav-link"
                id="ex3-tab-6"
@@ -70,6 +74,7 @@
                aria-controls="ex3-tabs-6"
                aria-selected="false">Ревюта</a>
         </li>
+        {% endcomment %}
 
     </ul>
     <!-- Tabs -->
@@ -158,10 +163,14 @@
             {# Section Info 3 #}
             <div class="container align-content-md-center text-center mt-lg-4">
                 <div class="row">
-                    <div class="col-md">
-                        <p>Вътрешен каталожен номер</p>
-                        <h4>{{ book.catalog_num }}</h4>
-                    </div>
+
+                    {% if is_owner %}
+                        <div class="col-md">
+                            <p>Вътрешен каталожен номер</p>
+                            <h4>{{ book.catalog_num }}</h4>
+                        </div>
+                    {% endif %}
+
                     <div class="col-md">
                         <p>ISBN</p>
                         <h4>{{ book.isbn_code|default_if_none:"-" }}</h4>
@@ -172,18 +181,42 @@
                     </div>
                 </div>
             </div>
-
             <hr>
 
-            {# Modify book info form button #}
-            <div class="d-flex flex-column mb-3 align-items-center">
-                <div class="p-2 align-items-center">
-                    <a href="{% url 'add new book' %}" class="btn btn-outline-dark ">
-                        Промени Съдържанието
-                    </a>
+            {# Section Info 4 - TAGS #}
+            <div class="container align-content-md-center text-center mt-lg-4">
+                <div class="row">
+                    <div class="col-md">
+                        <p>Тагове ( информативни )</p>
+                        <div class="text-info">
+                            {% for tag in tags %}
+                                <strong>#{{ tag.name }}</strong>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
+            <hr>
 
+            {% if is_owner %}
+                {# Modify book info form button #}
+                <div class="d-flex flex-column mb-3 align-items-center">
+                    <div class="p-2 align-items-center">
+                        <a href="{% url 'edit book' book.id %}" class="btn btn-outline-dark ">
+                            Промени Съдържанието
+                        </a>
+                    </div>
+                </div>
+
+                {# Delete book #}
+                <div class="d-flex flex-column mb-3 align-items-center">
+                    <div class="p-2 align-items-center">
+                        <a href="{% url 'delete book' book.id %}" class="btn-danger btn-outline-dark ">
+                            Изтрий книгата
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
 
 
@@ -193,40 +226,40 @@
              role="tabpanel"
              aria-labelledby="ex3-tab-2">
 
-            {% for foo in comment %}
-
-                <p class="text-center text-">{{ foo.user_id }} {{ foo.book_id }} {{ foo.comment }} {{ foo.pk }}</p>
-            {% endfor %}
-
-
         </div>
 
+        {% if is_owner %}
+            {# TAB 3 content #}
+            <div class="tab-pane fade"
+                 id="ex3-tabs-3"
+                 role="tabpanel"
+                 aria-labelledby="ex3-tab-3">
+                Tab 3 content
+            </div>
 
-        {# TAB 3 content #}
-        <div class="tab-pane fade"
-             id="ex3-tabs-3"
-             role="tabpanel"
-             aria-labelledby="ex3-tab-3">
-            Tab 3 content
-        </div>
 
-
-        {# TAB 4 content #}
-        <div class="tab-pane fade"
-             id="ex3-tabs-4"
-             role="tabpanel"
-             aria-labelledby="ex3-tab-4">
-            Tab 4 content
-        </div>
+            {# TAB 4 content #}
+            <div class="tab-pane fade"
+                 id="ex3-tabs-4"
+                 role="tabpanel"
+                 aria-labelledby="ex3-tab-4">
+                Tab 4 content
+            </div>
+        {% endif %}
 
         {# TAB 5 content #}
         <div class="tab-pane fade"
              id="ex3-tabs-5"
              role="tabpanel"
              aria-labelledby="ex3-tab-5">
-            Tab 5 content
+
+            {% for c in comment %}
+                <p class="text-center text-">{{ c.user_id }} {{ c.book_id }} {{ c.comment }} {{ c.pk }}</p>
+            {% endfor %}
+
         </div>
 
+        {% comment %}
         {# TAB 6 content #}
         <div class="tab-pane fade"
              id="ex3-tabs-6"
@@ -234,7 +267,7 @@
              aria-labelledby="ex3-tab-6">
             Tab 6 content
         </div>
-
+        {% endcomment %}
 
     </div>
     <!-- Tabs content -->

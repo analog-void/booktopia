@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from taggit.models import Tag
 
 from booktopia.books.forms import AddBookForm, EditBookForm, BookCommentForm
 from booktopia.books.models import Book, Comments
@@ -11,22 +12,27 @@ def index(request):
 
 def show_all_books(request):
     books = Book.objects.all()
-    return render(request, 'books/books_all.html', {'books': books})
+
+    context = {
+        'books': books,
+
+    }
+
+    return render(request, 'books/books_all.html', context)
 
 
 def book_detail(request, pk):
     book = Book.objects.get(pk=pk)
-    comment = Comments.objects.all()
+    comment = Comments.objects.filter(book_id=pk)
+    tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
 
-    # can_edit = book.user == request.user
-    # can_delete = book.user == request.user
     is_owner = book.user == request.user
 
     context = {
         "book": book,
         'is_owner': is_owner,
         'comment': comment,
-
+        'tags': tags,
     }
     return render(request, 'books/book_detail.html', context)
 
@@ -44,6 +50,8 @@ def add_book(request):
             book.cover_back = form.cleaned_data['cover_back']
 
             book.save()
+            form.save_m2m()
+
             return redirect('all my books table')
 
     else:
@@ -63,7 +71,9 @@ def edit_book(request, pk):
         form = EditBookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             form.save()
-            return redirect('book index')
+
+            return redirect('all my books table')
+
     else:
         form = EditBookForm(instance=book)
 
@@ -72,7 +82,7 @@ def edit_book(request, pk):
         'book': book,
     }
 
-    return render(request, 'books/book_edit.html', context)
+    return render(request, 'books/book_delete.html', context)
 
 
 @login_required
@@ -81,11 +91,21 @@ def delete_book(request, pk):
     if request.method == "POST":
         book.delete()
         return redirect('all my books table')
+
     else:
         context = {
             'book': book,
         }
-    return render(request, 'books/book_delete.html', context)
+        return render(request, 'books/book_delete.html', context)
+
+
+@login_required
+def book_comment(request, pk):
+    form = BookCommentForm(request.POST)
+    if form.is_valid():
+        form.save()
+
+    return redirect('book detail', pk)
 
 
 """
@@ -97,12 +117,3 @@ def like_book(request, pk):
     like.save()
     return redirect('book detail', book_to_like.id)
 """
-
-
-@login_required
-def book_comment(request, pk):
-    form = BookCommentForm(request.POST)
-    if form.is_valid():
-        form.save()
-
-    return redirect('book detail', pk)
