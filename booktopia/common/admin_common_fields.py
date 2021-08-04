@@ -1,8 +1,8 @@
 book_common_fields = (
     ('Обща информация', {
-        'fields': (('name', 'author_name'),
+        'fields': (('name','author_name'),
                    'release_year',
-                   ('owner', 'book_current_status'),
+                   ('user', 'book_current_status'),
                    ('price_for_rent', 'price_for_sell'),
                    ('is_for_sale', 'is_sold', 'is_lost',),
                    ('is_hidden', 'is_archived'))
@@ -63,3 +63,15 @@ book_common_fields = (
 # )
 
 # owner_common_fields = ()
+
+author_common_fields = (
+    ('Автор', {
+        'fields': (
+            'book_id',
+            ('first_name', 'last_name'),
+            'pseudonym',
+            ('date_of_birth', 'date_of_death'),
+            ('nationality', 'wiki_page')
+        )
+    }),
+)

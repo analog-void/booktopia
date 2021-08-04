@@ -15,19 +15,17 @@ from booktopia.book_owners.models import Owner
 from booktopia.common.countries import LANGUAGES_BG
 from booktopia.common.general_choices import BOOK_RELEASE, BOOK_CONDITION, BOOK_CURRENT_STATUS
 from booktopia.settings import MEDIA_ROOT
-#
 # IMPORTING SPLITED INITIAL MODEL FILE
+#
 from .submodels.authors_model import *
 from .submodels.editions_model import *
 # from .submodels.comments_model import *
 #
-from .submodels.rent_history_model import *
-from .submodels.reservations_model import *
-from .submodels.reviews_model import *
+# from .submodels.reviews_model import *
 from .submodels.status_model import *
 
 #
-# from .validators import validate_min_rent, validate_min_sell, validate_rent_price, validate_sell_price
+
 
 
 UserModel = get_user_model()
@@ -39,6 +37,7 @@ class Book(models.Model):
         UserModel,
         on_delete=models.CASCADE,
         default=1,
+        verbose_name='Потребител'
     )
 
     name = models.CharField(max_length=200, verbose_name='Име на книгата')
@@ -74,7 +73,6 @@ class Book(models.Model):
 
     isbn_code = models.CharField(max_length=15, verbose_name='ISBN', blank=True, null=True)
 
-
     oclc_code = models.CharField(max_length=15, verbose_name='OCLC', blank=True, null=True)
 
     synopsis = models.TextField(blank=True, null=True, verbose_name='Синопсис')
@@ -104,7 +102,7 @@ class Book(models.Model):
     # TODO: a lier avec les wish lists
     book_to_read_by_owner = models.BooleanField(default=False, verbose_name='Непрочетена')
 
-    price_for_rent = models.FloatField(default=0,
+    price_for_rent = models.FloatField(default=1.00,
                                        verbose_name='Стойност на гаранцията (лв.)',
                                        validators=[MinValueValidator(1.0,
                                                                      message='Минималната гараранция е 1,00 лев.')])
@@ -178,23 +176,23 @@ class Book(models.Model):
     generated_qr_code_content = models.CharField(max_length=100, default=None,
                                                  null=True, blank=True, )
     tags = TaggableManager(blank=True,
-                           verbose_name='Тагове, разделени със запетайка',)
+                           verbose_name='Тагове, разделени със запетайка', )
     #
     # Foreign keys
     author_name = models.ForeignKey(Author, on_delete=models.RESTRICT,
                                     null=True, verbose_name='Автор(и)')
-    book_rent_history = models.ForeignKey(RentHistory, on_delete=models.RESTRICT,
-                                          verbose_name='История на заеманията', blank=True, null=True)
+
+    # book_rent_history = models.ForeignKey(RentHistory, on_delete=models.RESTRICT,
+    #                                       verbose_name='История на заеманията', blank=True, null=True)
     book_transportation_history = models.ForeignKey(StatusHistory, on_delete=models.RESTRICT,
                                                     verbose_name='История на транспортиранията', blank=True, null=True)
-    # to_field='book_id',
-    # book_comments = models.ForeignKey(Comments, on_delete=models.CASCADE,
-    #                                   verbose_name='Коментари', blank=True, null=True, )
-    book_reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE,
-                                     verbose_name='Ревюта', blank=True, null=True)
-    owner = models.ForeignKey(Owner, on_delete=models.RESTRICT,
-                              verbose_name='Собственик', null=True)
+    # book_reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE,
+    #                                  verbose_name='Ревюта', blank=True, null=True)
 
+    # owner = models.ForeignKey(Owner, on_delete=models.RESTRICT,
+    #                           verbose_name='Собственик', null=True)
+
+    #
     # Random string generator for the QR code
     def qr_code_gen(self, request_type=None):
         # code_url = ""
@@ -231,7 +229,7 @@ class Book(models.Model):
         image.save(image_path)
 
     def __str__(self):
-        return f"{self.name} - {self.author_name} ({self.pk})"
+        return f"{self.name} - ({self.pk})"  # {self.author_name}
 
     # META CLASS
     class Meta:
@@ -268,12 +266,8 @@ class Book(models.Model):
 
 
 class Comments(models.Model):
-    # timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата на създаване на записа')
     user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-    # user_id_num = models.IntegerField(default=0)
-    # book_id_num = models.IntegerField(unique=True, blank=True)
 
     comment = models.TextField(verbose_name='Съдържание на кометара', null=True)
 
@@ -281,14 +275,19 @@ class Comments(models.Model):
     up_votes_count = models.PositiveSmallIntegerField(default=0)
     down_votes_count = models.PositiveSmallIntegerField(default=0)
 
-    # record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
-    #                                          null=True, verbose_name='Дата на създаване на записа')
-    # record_updated_at = models.DateTimeField(auto_now=True, blank=True,
-    #                                          null=True, verbose_name='Дата на промяна на записа')
+    record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
+                                             null=True, verbose_name='Дата на създаване на записа')
+    record_updated_at = models.DateTimeField(auto_now=True, blank=True,
+                                             null=True, verbose_name='Дата на промяна на записа')
 
-    # def __str__(self):
-    #     return str(self.timestamp)
+    def __str__(self):
+        return f'{self.book_id}'
 
     class Meta:
         verbose_name = 'Коментар'
         verbose_name_plural = 'Коментари'
+
+#
+#
+from .submodels.rent_history_model import *
+from .submodels.reservations_model import *

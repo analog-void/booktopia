@@ -1,5 +1,5 @@
 # Known Limitations and bugs
-* Authors(model)  - една книга може да има повече от 1 автор, посоката на РЕЛ в ДБ трябва да се обърне
+* Authors(model)  - една книга може да има повече от 1 автор, посоката на РЕЛ в ДБ трябва да се обърне /// не става ...
 - save() от темплейт не създава рк директория. Да се помисли за post_save signal
   	- EMAIL AS FOLDER (SLUGIFY)
   	- REMOVE TEMPORARY
@@ -36,10 +36,18 @@ LE REVIEW EST FAIT PAR ÉDITEUR
 ***
 - [ ] RECHERCHE INTERNE
 - [ ] DES STARS POUR LES BOUQUINS / COMMENTAIRES
-- [ ] THUMBNAIL CREATION / IMAGE RESIZE / FORMAT CHANGE > PIP / OTHER
+- [ ] THUMBNAIL CREATION / IMAGE RESIZE / FORMAT CHANGE to PNG > PIP / OTHER
 
+- [ ] VOIR LE JUMBOTRON
+- [ ] a faire la page interne quant tu te log - les dermers bouquins, news etc
+- [ ] A FIXER LE FOOTER
 - [ ] 
 - [ ] 
+- [ ] 
+
+да има селери/крон, който всеки ден проверява началната дата на заеманията (или три дни преди това) и ако има 
+започваща или завършваща да се предлага в бонтитата като възмойност за взимане (да се посочи мястото за взимане в 
+този случай)
 
 
 

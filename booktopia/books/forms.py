@@ -42,7 +42,7 @@ class AddBookForm(forms.ModelForm, BootstrapFormMixin):
         # error_css_class = 'error'
 
         fields = ('name',
-                  'author_name',
+                  # 'author_name',
                   'editions',
                   'synopsis',
                   'visual_condition',
@@ -102,7 +102,7 @@ class EditBookForm(forms.ModelForm, BootstrapFormMixin):
         model = Book
 
         fields = ('name',
-                  'author_name',
+                  # 'author_name',
                   'editions',
                   'synopsis',
                   'visual_condition',

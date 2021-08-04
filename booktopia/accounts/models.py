@@ -2,12 +2,12 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import MinLengthValidator
 from django.db import models
+# from datetime import date
+from egn import parse, validate
 
 from .managers import BooktopiaUserManager
 from ..common.general_choices import GENDER_CHOICES
 
-
-# from datetime import date
 
 class BooktopiaUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -43,16 +43,11 @@ class BooktopiaUser(AbstractBaseUser, PermissionsMixin):
 
     last_login = models.DateTimeField(
         auto_now=True,
-        # default=timezone.now,
         verbose_name='Последено влизане на потребителя'
     )
 
     date_joined = models.DateTimeField(
         auto_now_add=True,
-        # auto_created=True,
-        # default=timezone.now,
-        # auto_now=True,
-        # blank=True,
         verbose_name='Дата на създаване на акаунта'
     )
 
@@ -80,11 +75,14 @@ class Profile(models.Model):
                                    null=True, blank=True,
                                    validators=[MinLengthValidator(2)], )
 
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES,
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES,
                               verbose_name='Пол', )
 
     date_of_birth = models.DateField(null=True, blank=True,
                                      verbose_name='Дата на раждане')
+
+    egn_number = models.PositiveIntegerField(default=0,
+                                             verbose_name='Единен граждански номер')
 
     mobile_phone = models.CharField(max_length=20, unique=True,
                                     null=True, blank=True,
@@ -102,6 +100,22 @@ class Profile(models.Model):
                                              blank=True, null=True,
                                              verbose_name='Дата на промяна на записа')
 
+    def egn_decompressor(self):
+        egn_check = validate(self.egn_number)
+        egn_status = egn_check.split(' ')
+        if egn_status[2] == 'valid!':
+            egn_details = parse(self.egn_number)
+            egn_date_birth = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
+            egn_gender = str
+
+            return ''
+
+    """
+    {"year": 1978, "month": 10, "day": 15, "region_bg": 
+    "\u0412\u0430\u0440\u043d\u0430", "region_en": "Varna", 
+    "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
+    """
+
     # def calculated_age(self):
     #     today = date.today()
     #     return today.year - self.date_of_birth.year - \
@@ -116,12 +130,6 @@ class Profile(models.Model):
         verbose_name = 'Потребителски Акаунт'
         verbose_name_plural = 'Потребителски Акаунти'
         ordering = ['first_name']
-    #
-    # def save(self, *args, **kwargs):
-    #     self.first_name = self.first_name.title()
-    #     self.middle_name = self.middle_name.title()
-    #     self.family_name = self.family_name.title()
-    #     super().save(*args, **kwargs)
 
 
 from .signals import *

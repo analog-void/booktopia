@@ -1,3 +1,4 @@
+"""
 from django.db import models
 
 
@@ -20,3 +21,4 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = 'Ревю'
         verbose_name_plural = 'Ревюта'
+"""

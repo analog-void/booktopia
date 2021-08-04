@@ -15,9 +15,7 @@ def show_all_books(request):
 
     context = {
         'books': books,
-
     }
-
     return render(request, 'books/books_all.html', context)
 
 

@@ -57,5 +57,5 @@ class Owner(models.Model):
         self.email = self.email.lower()
         super().save(*args, **kwargs)
 
-# TODO: SCORING - EWOLUTION DES SCORES + HISTORIQUES
+# TODO: SCORING - EVOLUTION DES SCORES + HISTORIQUES
 

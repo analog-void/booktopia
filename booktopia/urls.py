@@ -12,7 +12,9 @@ urlpatterns = [
     path('grappelli-docs/', include('grappelli.urls_docs')),  # grappelli docs URLS
 
     path('book/', include('booktopia.books.urls')),
+    # TODO: A LE MERGER AVEC PROFILE
     path('owner/', include('booktopia.book_owners.urls')),
+
     path('shopper/', include('booktopia.book_shoppers.urls')),
     path('hub/', include('booktopia.book_hubs.urls')),
     path('runner/', include('booktopia.book_runners.urls')),
