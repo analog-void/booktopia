@@ -1,5 +1,7 @@
 {% extends 'core_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block meta_description %}{% endblock %}
 {% block meta_content %}{% endblock %}
@@ -7,4 +9,96 @@
 {% block title %}Потребителски профил{% endblock %}
 
 {% block content_main %}
+
+    <div class="container">
+
+        <form action="{% url 'profile' %}"
+              class="w-50 m-auto needs-validation"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="text-center mt-2 mb-2 text-warning"
+                 style="height: 50px;">
+                <h4>Личен профил</h4>
+                <p>Всички полета са задължителни</p>
+            </div>
+
+            {% csrf_token %}
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.first_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
+                <label class="form-label" for="id_{{ form.first_name.name }}">{{ form.first_name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.middle_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
+                <label class="form-label" for="id_{{ form.middle_name.name }}">{{ form.middle_name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.family_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
+                <label class="form-label" for="id_{{ form.family_name.name }}">{{ form.family_name.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+            <div class="mt-4">
+                {% if form.gender == 1 %}
+                    <p>Пол: <strong>Мъжки</strong></p>
+                {% else %}
+                    <p>Пол: <strong>Женски</strong></p>
+                {% endif %}
+            </div>
+
+
+            <div class="form-outline mt-4">
+                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
+                {{ form.date_of_birth|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=8 disabled' }}
+                <label class="form-label" for="id_{{ form.date_of_birth.name }}">{{ form.date_of_birth.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
+                {{ form.egn_number|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=10 disabled' }}
+                <label class="form-label" for="id_{{ form.egn_number.name }}">{{ form.egn_number.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            <div class="form-outline mt-4">
+                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
+                {{ form.mobile_phone|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=20' }}
+                <label class="form-label" for="id_{{ form.mobile_phone.name }}">{{ form.mobile_phone.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+
+
+            {# TODO: READ-ONLY #}
+
+
+            <p class="mt-1">Профилна снимка</p>
+            <div class="form-outline mt-n3">
+                {{ form.photo }}
+            </div>
+
+            {{ form.errors }}
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-rounded btn-outline-primary">Обнови информацията</button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+
 {% endblock %}

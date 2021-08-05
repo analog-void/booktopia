@@ -1,5 +1,4 @@
 {% extends 'core_template.html' %}
-
 {% block meta_description %}{% endblock %}
 {% block meta_content %}{% endblock %}
 
@@ -8,14 +7,19 @@
 {% block content_main %}
 
     <div class="container">
-        <form action="{% url 'sign in' %}" class="w-50 m-auto" method="post">
-            <h2>Регистрация</h2>
+        <form action="{% url 'sign up' %}" class="w-50 m-auto" method="post">
+            <h2 class="text-center">Регистрация</h2>
             {% csrf_token %}
             {{ form }}
             {{ form.errors }}
 
-            <button type="submit" class="btn btn-rounded btn-outline-primary">Sign Up</button>
-            <span>Вече имате създаден потребителски профил?<a href="{% url 'sign up' %}">Влезте от тук</a></span>
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-rounded btn-outline-primary">Регистрация</button>
+            </div>
+
+            <div class="text-center mt-3 font-italic">Вече имате създаден потребителски профил?
+                <br>
+                <a href="{% url 'sign in' %}">Влезте от тук</a></div>
 
         </form>
     </div>

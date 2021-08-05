@@ -12,6 +12,7 @@ urlpatterns = [
     path('grappelli-docs/', include('grappelli.urls_docs')),  # grappelli docs URLS
 
     path('book/', include('booktopia.books.urls')),
+
     # TODO: A LE MERGER AVEC PROFILE
     path('owner/', include('booktopia.book_owners.urls')),
 

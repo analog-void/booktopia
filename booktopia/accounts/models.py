@@ -3,7 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import MinLengthValidator
 from django.db import models
 # from datetime import date
-from egn import parse, validate
+from egn import parse
 
 from .managers import BooktopiaUserManager
 from ..common.general_choices import GENDER_CHOICES
@@ -81,12 +81,12 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True,
                                      verbose_name='Дата на раждане')
 
-    egn_number = models.PositiveIntegerField(default=0,
+    egn_number = models.PositiveIntegerField(null=True, blank=True,
                                              verbose_name='Единен граждански номер')
 
     mobile_phone = models.CharField(max_length=20, unique=True,
-                                    null=True, blank=True,
-                                    verbose_name='Мобилен текефон')
+                                    null=True, blank=True, default='+359 8',
+                                    verbose_name='Мобилен телефон')
 
     photo = models.ImageField(upload_to='photo_owners',
                               null=True, blank=True,
@@ -100,15 +100,18 @@ class Profile(models.Model):
                                              blank=True, null=True,
                                              verbose_name='Дата на промяна на записа')
 
-    def egn_decompressor(self):
-        egn_check = validate(self.egn_number)
-        egn_status = egn_check.split(' ')
-        if egn_status[2] == 'valid!':
-            egn_details = parse(self.egn_number)
-            egn_date_birth = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
-            egn_gender = str
+    def get_egn_gender(self):
+        egn_details = parse(self.egn_number)
+        if egn_details['gender'] == 'Male':
+            return 1
+        else:
+            return 2
 
-            return ''
+    def get_egn_dob(self):
+        egn_details = parse(self.egn_number)
+        egn_dob = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
+
+        return egn_dob
 
     """
     {"year": 1978, "month": 10, "day": 15, "region_bg": 
@@ -116,20 +119,21 @@ class Profile(models.Model):
     "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
     """
 
-    # def calculated_age(self):
-    #     today = date.today()
-    #     return today.year - self.date_of_birth.year - \
-    #            ((today.month, today.day) < (self.date_of_birth.month,
-    #                                         self.date_of_birth.day))
 
     def __str__(self):
-        return f'{self.first_name} {self.family_name}'
-        # f' | {self.calculated_age()} г.'
+        return f'{self.user} | {self.first_name} {self.family_name}'
 
     class Meta:
         verbose_name = 'Потребителски Акаунт'
         verbose_name_plural = 'Потребителски Акаунти'
         ordering = ['first_name']
+
+    def save(self, *args, **kwargs):
+        if not self.gender:
+            self.gender = self.get_egn_gender()
+
+        self.date_of_birth = self.get_egn_dob()
+        super(Profile, self).save(*args, **kwargs)
 
 
 from .signals import *

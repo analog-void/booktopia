@@ -3,9 +3,24 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
+from booktopia.accounts.models import Profile
+
 UserModel = get_user_model()
 
-class LoginForm(forms.Form):
+
+class BootstrapFormMixin:
+    def _init_bootstrap(self):
+        for (_, field) in self.fields.items():
+            field.widget.attrs = {
+                'class': 'form-control',
+            }
+
+
+class LoginForm(forms.Form, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
     user = None
     email = forms.EmailField()
 
@@ -26,7 +41,39 @@ class LoginForm(forms.Form):
         return self.user
 
 
-class RegisterForm(UserCreationForm):
+class RegisterForm(UserCreationForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
     class Meta:
         model = UserModel
         fields = ('email',)
+
+
+class ProfileForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Profile
+        fields = ('first_name',
+                  'middle_name',
+                  'family_name',
+                  'gender',
+                  'date_of_birth',
+                  'egn_number',
+                  'mobile_phone',
+                  'photo',
+                  )
+
+
+class EgnForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Profile
+        fields = ('egn_number',)

@@ -155,7 +155,7 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="#">Дашборд</a>
                 </li>
             </ul>
 
@@ -163,12 +163,13 @@
             {% if request.user.is_authenticated %}
                 <div class="d-flex align-items-center">
                     <button type="button" class="btn btn-link px-3 me-2">
+
                         {# TODO Fix the link #}
-                        <a href="{% url 'sign out' %}">Profile</a>
+                        <a href="{% url 'profile'%}">Профил</a>
                     </button>
 
                     <button type="button" class="btn btn-link px-3 me-2">
-                        <a href="{% url 'sign out' %}">Sign out</a>
+                        <a href="{% url 'sign out' %}">Изход</a>
                     </button>
 
                 </div>
@@ -176,11 +177,11 @@
             {% else %}
                 <div class="d-flex align-items-center">
                     <button type="button" class="btn btn-link px-3 me-2">
-                        <a href="{% url 'sign in' %}">Sign in</a>
+                        <a href="{% url 'sign in' %}">Вход</a>
                     </button>
 
                     <button type="button" class="btn btn-link px-3 me-2">
-                        <a href="{% url 'sign up' %}">Sign up</a>
+                        <a href="{% url 'sign up' %}">Регистрация</a>
                     </button>
                 </div>
             {% endif %}
