@@ -1,6 +1,8 @@
 from django import forms
 
 from booktopia.books.models import Book
+from booktopia.books.submodels.authors_model import Author
+from booktopia.books.submodels.editions_model import Editions
 
 
 class BootstrapFormMixin:
@@ -15,7 +17,7 @@ class BootstrapFormMixin:
 class AddBookForm(forms.ModelForm, BootstrapFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._init_bootstrap()  # cela on peut l'eviter
+        self._init_bootstrap()
 
         self.fields['name'].widget.attrs.update({'placeholder': 'Пълно име',
                                                  'title': 'Пълно име', })
@@ -136,6 +138,47 @@ class EditBookForm(forms.ModelForm, BootstrapFormMixin):
 
 class BookCommentForm(forms.Form):
     pass
+
+
+class AddAuthorForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Author
+        # exclude = ('name')
+        fields = '__all__'
+
+
+class EditAuthorForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Author
+        fields = '__all__'
+
+
+class AddEditionsForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Editions
+        fields = '__all__'
+
+
+class EditEditionsForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Editions
+        fields = '__all__'
 
 
 """

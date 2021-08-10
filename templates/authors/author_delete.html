@@ -1,0 +1,31 @@
+{% extends 'core_template.html' %}
+{#{% load widget_tweaks %}#}
+
+{% block meta_description %}{% endblock %}
+{% block meta_content %}{% endblock %}
+
+{% block title %}Изтриване на автор{% endblock %}
+
+{% block content_main %}
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Сигурни ли сте, че желаете да изтриете
+                <br>{{ author.first_name }} {{ author.last_name }}?</h1>
+            <h2>Това действие е необратимо...</h2>
+
+            <div class="m-auto d-flex justify-content-center">
+                <div class="m-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Да, един автор напуска света на Booktopia" class="btn btn-danger"/>
+                    </form>
+                </div>
+
+                <div class="m-2">
+                    <a class="btn btn-primary" href="javascript:history.back()">Не</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

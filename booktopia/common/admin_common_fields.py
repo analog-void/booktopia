@@ -25,8 +25,11 @@ book_common_fields = (
     }),
 
     ('Оценка', {
-        'fields': ('synopsis', 'notes', 'book_reviews',)
+        'fields': ('synopsis', 'notes',)
     }),
+
+    # 'book_reviews'
+
 
     ('Медия', {
         'fields': (
@@ -44,7 +47,7 @@ book_common_fields = (
         # 'classes': ('collapse',), # Pour la template d'origine
         'fields': ('book_to_read_by_owner', 'book_reserved',
                    ('has_been_rented_times', 'generated_qr_code_content'),
-                   ('book_rent_history', 'book_transportation_history'),
+                   # ('book_rent_history', 'book_transportation_history'),
 
                    # FIXME: Timestams in ADMIN bug ....
                    # ('record_created_at', 'record_updated_at'),

@@ -96,7 +96,7 @@ admin.site.register(Book, BookAdmin)
 admin.site.register(Comments)
 
 admin.site.register(Editions)
-admin.site.register(RentHistory)
+# admin.site.register(RentHistory)
 admin.site.register(StatusHistory)
 # admin.site.register(Reviews)
 

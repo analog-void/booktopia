@@ -2,13 +2,10 @@ from datetime import date
 
 from django.db import models
 
-# from booktopia.books.models import Book
 from booktopia.common.countries import COUNTRIES_BG
 
 
 class Author(models.Model):
-    # book_id = models.ForeignKey(Book, on_delete=models.CASCADE,
-    #                             null=True, blank=True)
 
     first_name = models.CharField(max_length=25, verbose_name='Име', )
     last_name = models.CharField(max_length=25, verbose_name='Фамилия', )

@@ -97,47 +97,6 @@
         </ul>
     </nav>
 
-
-
-
-
-
-
-{#    {% for b in books %}#}
-{#    <div class="col-md-6">#}
-{#        <div class="cards">#}
-{#            <div class="row no-gutters border rounded  flex-md-row mb-4 shadow-sm h-md-250">#}
-{#                <div class="col p-4 d-flex flex-column position-static">#}
-{#                    <h3 class="my-1"><a href="{% url 'detail' post.slug %}">{{post.title}}</a></h3>#}
-{#                    <div style="display:flex">#}
-{#                        {% for tag in books.tags.all %}#}
-{#                        <a href="{% url 'tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-{#                    <p class="mb-auto">{{post.description}}</p>#}
-{#                    <p class="mb-auto text-muted">{{post.published}}</p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    {% endfor %}#}
-
-
-
-    {% comment %}
-        <nav aria-label="...">
-      <ul class="pagination pagination-sm justify-content-center">
-        <li class="page-item active" aria-current="page">
-          <span class="page-link">
-            1
-            <span class="visually-hidden">(current)</span>
-          </span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-      </ul>
-    </nav>
-    {% endcomment %}
 {% endblock %}
 
 

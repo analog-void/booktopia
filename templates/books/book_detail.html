@@ -63,18 +63,6 @@
                aria-selected="false">Коментари</a>
         </li>
 
-        {% comment %}
-        <li class="nav-item" role="presentation">
-            <a class="nav-link"
-               id="ex3-tab-6"
-               data-mdb-toggle="tab"
-               href="#ex3-tabs-6"
-               role="tab"
-               aria-controls="ex3-tabs-6"
-               aria-selected="false">Ревюта</a>
-        </li>
-        {% endcomment %}
-
     </ul>
     <!-- Tabs -->
 
@@ -196,6 +184,19 @@
                 </div>
             </div>
             <hr>
+
+            <div class="container text-center mt-lg-4">
+                <div class="row">
+                    <div class="col-md">
+                        <p>QR код за книгата</p>
+                        <img src="{{ book.generated_qr_code_image.url }}"
+                             class="img-fluid rounded" alt="Снимка Корица Лице" style="max-width:400px"/>
+                    </div>
+
+                 </div>
+            </div>
+            <hr>
+
 
             {% if is_owner %}
                 {# Modify book info form button #}

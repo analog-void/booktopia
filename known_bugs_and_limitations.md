@@ -1,3 +1,5 @@
+https://github.com/analog-void/booktopia/
+***
 # Known Limitations and bugs
 * Authors(model)  - една книга може да има повече от 1 автор, посоката на РЕЛ в ДБ трябва да се обърне /// не става ...
 - save() от темплейт не създава рк директория. Да се помисли за post_save signal
@@ -6,27 +8,30 @@
   	- 
 - owner >>> to user
 - TAGS - без реална употреба на този етап
-
-
+- Автори - държавата за раждане не се появява в изгледа. да се направи querryset()
+- ЕГН - веднъж въведено, да не може повече да се достъпва до линка за въвеждане
 
 
 
 # TODO:
-***
+
 ## DESIGN / FRONTEND
-- [ ] A CHANGER LE HEADER IMAGE AVEC UN TRUC DE BIBLIO
-  DANS LA LISTE DES BOUQUINS EN LOGIN - A AFFICHER LES EMAILS
+- [ ] SCORING - ЕВОЛЮЦИЯ НА ПОТРЕБИТЕЛИТЕ И ГЕНЕРИРАНЕ НА РЕЙТИНГ СПОРЕД КОМЕНТАРИ И КНИГИ
+- [ ] REGEX ВАЛИДАТОР НА ТЕЛЕФОНЕН НОМЕР БГ
+- [ ] СМЯНА НА ХЕДЪРА С РАЗЛИЧЕН СТОКФОТО (JUMBOTRON)
+- [ ] ДА СЕ ПОКАЗВА ИМЕТО НА ПОТРЕБИТЕЛЯ В ТАБЛИЦАТА С КНИГИТЕ
+  - [ ] ДА СЕ ДОБАВИ КОГА Е ДОБАВЕНА КНИГАТА
   
 - [x] IS_OWNER IN BOOKS = ДА СЕ СЛОЖИ ПРЕДИ БУТОНИТЕ
-- [ ] REVIEWS - A LES FINIR
-    - [ ] VOIR COMMENT ÇA SE PASSE DANS LE MODELE EN RELATION AVEC
+- [ ] REVIEWS / COMMENTS - ДА СЕ НАПРАВИ ФОРМА, ДА СЕ МЪРДЖНАТ
+	- [ ] ДА НЕ МОЖЕ СОБСТВЕНИКА ДА КОМЕНТИРА СОБСТВЕНАТА СИ КНИГА
+    - [ ] ДА СЕ ВИДИ КАК ТОЧНО СЕ СЛУЧВАТ НЕЩАТА В АДММИН
 
-- [ ] A FUSIONNER COMMENTS AND REVIEWS TOUT SIMPLEMENT
-LE REVIEW EST FAIT PAR ÉDITEUR
+- [ ] ДА СЕ ОПИШЕ ТЕКСТ ЗА РЕВЮТО - ЧЕ Е ЗАДЪЛЖИТЕЛНО
+- [ ] ДА НЕ НАПРАВЯТ БУТОНИ ЗА ИЗБОР НА РОЛЯ ПО ВРЕМЕ НА РЕГИСТРТАЦИЯТА
 
 - [ ] METTRE UN BOUTON QUI AFFICHE UNE BOULE D'AIDE A COTE DES CHAMPS - UN POPUP?
-- [ ] 
-- [ ] PAGINATION SUR TOUTES LES PAGES (TABLES)
+- [ ] PAGINATION НА СТРАНИЦИТЕ (TABLES)
 	- [ ] BOOKS
 	- [ ] AUTEURS
 	- [ ] PRES DE MOI
@@ -36,16 +41,14 @@ LE REVIEW EST FAIT PAR ÉDITEUR
 	- [ ] COMMENTS
 
 ***
-- [ ] RECHERCHE INTERNE
-- [ ] DES STARS POUR LES BOUQUINS / COMMENTAIRES
+- [ ] ВЪТРЕШНА ТЪРСАЧКА
+- [ ] ДА СЕ ПРОВЕРЯТ ТЪРСЕНИЯТА В АДМИН   
+- [ ] THUMBS UP / DOWN ЗА КОМЕНТАРИТЕ
+- [ ] ЗВЕЗДИЧКИ ЗА ЕВАЛ НА КНИГАТА 
 - [ ] THUMBNAIL CREATION / IMAGE RESIZE / FORMAT CHANGE to PNG > PIP / OTHER
 
-- [ ] VOIR LE JUMBOTRON
 - [ ] a faire la page interne quant tu te log - les dermers bouquins, news etc
-- [ ] A FIXER LE FOOTER
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] ДА СЕ ОПРАВЯТ ЛИНКОВЕТЕ ВЪВ ФУТЪРА
 
 да има селери/крон, който всеки ден проверява началната дата на заеманията (или три дни преди това) и ако има 
 започваща или завършваща да се предлага в бонтитата като възмойност за взимане (да се посочи мястото за взимане в 
@@ -54,15 +57,20 @@ LE REVIEW EST FAIT PAR ÉDITEUR
 
 
 
-
-***
-
-
 ## CRITICAL / BACKEND
-- [ ] A FAIRE LE SYSTEME DE LOGIN
-	- [ ] LOGIN FORM
-	- [ ] REGISTER FORM
-	- [ ] EDIT PROFILE FORM
+- [ ] FAIRE UN AUTRE MENU, AQUAND LES GENS ONT PAS ENCORE DE PROFIL (MENU)
+
+- [ ] A VIRER LES OWNERS
+  STATUS HISTORY
+  
+
+- [ ] FAIRE LA BIZLOGIC LORS DE LA CONNEXION 
+- [X] A FAIRE LE SYSTEME DE LOGIN
+	- [X] LOGIN FORM
+	- [X] REGISTER FORM
+	- [X] EDIT PROFILE FORM
+	- [X] EGN CHECKER
+	  
 	- [ ] EMAIL SEND ON CREATION
 		- [ ] EMAIL CONFIRMATION OF THE ACCOUNT CREATION
 	
@@ -71,9 +79,15 @@ LE REVIEW EST FAIT PAR ÉDITEUR
 	- [ ] CONFIRMATION POPUP (EN MODAL)
 
 
+
+
 ## ADMIN
 REFAIRE LES VIEWS POUR:
-- Потребителски Акаунти ()
+- Потребителски Акаунти
+- Автори
+- Издателства
+- История на заеманията
+- Коментари
 
 
 ## VRAC
@@ -84,11 +98,7 @@ REFAIRE LES VIEWS POUR:
 	# Con avec un API? > ISBN ET AUTRE
 	# VOIR COMMENT LES CHOSES SONT FAITES A CHITANKA
 
-	
 
 # DONE
-- [x] TAGS - ne marchent pas comme il faudrai
 - DELETE - нещо не става потвърждението
-
-
 

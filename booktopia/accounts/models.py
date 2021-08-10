@@ -1,11 +1,13 @@
+from datetime import date
+
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.validators import MinLengthValidator
 from django.db import models
 # from datetime import date
 from egn import parse
 
 from .managers import BooktopiaUserManager
+from .validators import *
 from ..common.general_choices import GENDER_CHOICES
 
 
@@ -65,7 +67,11 @@ class Profile(models.Model):
 
     first_name = models.CharField(max_length=25, verbose_name='Име',
                                   null=True, blank=True,
-                                  validators=[MinLengthValidator(2)])
+                                  # validators=[MinLengthValidator(3),
+                                  #             MaxLengthValidator(25),
+                                  #             validate_not_null,
+                                  #             ]
+                                  )
 
     middle_name = models.CharField(max_length=25,
                                    null=True, blank=True,
@@ -73,7 +79,8 @@ class Profile(models.Model):
 
     family_name = models.CharField(max_length=25, verbose_name='Фамилия',
                                    null=True, blank=True,
-                                   validators=[MinLengthValidator(2)], )
+                                   # validators=[MinLengthValidator(2)],
+                                   )
 
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES,
                               verbose_name='Пол', )
@@ -84,7 +91,14 @@ class Profile(models.Model):
     egn_number = models.PositiveIntegerField(null=True, blank=True,
                                              verbose_name='Единен граждански номер')
 
-    mobile_phone = models.CharField(max_length=20, unique=True,
+    region_of_birth = models.CharField(max_length=20, null=True, blank=True,
+                                       verbose_name='Роден в област')
+
+    astrological_sign = models.CharField(max_length=20, null=True, blank=True,
+                                         verbose_name='Зодиакален знак')
+
+    # FIXME: VERIF - UNIQUE NUMBER - , unique=True,
+    mobile_phone = models.CharField(max_length=20,
                                     null=True, blank=True, default='+359 8',
                                     verbose_name='Мобилен телефон')
 
@@ -100,18 +114,86 @@ class Profile(models.Model):
                                              blank=True, null=True,
                                              verbose_name='Дата на промяна на записа')
 
+    def clean(self):
+        if not self.first_name or \
+                len(self.first_name) < 3 or \
+                len(self.first_name) >= 25:
+            raise ValidationError(
+                {'first_name': "Името трябва да е най-малко 3 и най-много 25 символа"})
+
+        if not self.family_name or \
+                len(self.family_name) < 3 or \
+                len(self.family_name) >= 25:
+            raise ValidationError(
+                {'family_name': "Фамилията трябва да е най-малко 3 и най-много 25 символа"})
+
+        if not self.mobile_phone or \
+                len(self.mobile_phone) < 4 or \
+                len(self.mobile_phone) >= 17:
+            # TODO: REGEX validator
+            raise ValidationError(
+                {'mobile_phone': "Номерът на телефона трябва да е най-малко 4 и не повече от 17 символа"})
+
     def get_egn_gender(self):
         egn_details = parse(self.egn_number)
         if egn_details['gender'] == 'Male':
-            return 1
+            return 'M'
         else:
-            return 2
+            return 'F'
 
     def get_egn_dob(self):
         egn_details = parse(self.egn_number)
         egn_dob = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
-
         return egn_dob
+
+    def get_birth_region(self):
+        egn_details = parse(self.egn_number)
+        region = egn_details['region_bg']
+        return region
+
+    def get_astro_sign(self):
+        egn_details = parse(self.egn_number)
+        day = egn_details['day']
+        month = egn_details['month']
+        astro_sign = ''
+
+        if month == 12:
+            astro_sign = 'Стрелец' if (day < 22) else 'Козирог'
+
+        elif month == 1:
+            astro_sign = 'Козирог' if (day < 20) else 'Водолей'
+
+        elif month == 2:
+            astro_sign = 'Водолей' if (day < 19) else 'Риби'
+
+        elif month == 3:
+            astro_sign = 'Риби' if (day < 21) else 'Овен'
+
+        elif month == 4:
+            astro_sign = 'Овен' if (day < 20) else 'Телец'
+
+        elif month == 5:
+            astro_sign = 'Телец' if (day < 21) else 'Близнаци'
+
+        elif month == 6:
+            astro_sign = 'Близнаци' if (day < 21) else 'Рак'
+
+        elif month == 7:
+            astro_sign = 'Рак' if (day < 23) else 'Лъв'
+
+        elif month == 8:
+            astro_sign = 'Лъв' if (day < 23) else 'Дева'
+
+        elif month == 9:
+            astro_sign = 'Дева' if (day < 23) else 'Везни'
+
+        elif month == 10:
+            astro_sign = 'Везни' if (day < 23) else 'Скорпион'
+
+        elif month == 11:
+            astro_sign = 'Скорпион' if (day < 22) else 'Стрелец'
+
+        return astro_sign
 
     """
     {"year": 1978, "month": 10, "day": 15, "region_bg": 
@@ -119,6 +201,11 @@ class Profile(models.Model):
     "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
     """
 
+    def profile_calculated_age(self):
+        today = date.today()
+        age = today.year - self.date_of_birth.year - \
+              ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+        return f'{age} години'
 
     def __str__(self):
         return f'{self.user} | {self.first_name} {self.family_name}'
@@ -129,10 +216,12 @@ class Profile(models.Model):
         ordering = ['first_name']
 
     def save(self, *args, **kwargs):
-        if not self.gender:
+        if self.egn_number:
             self.gender = self.get_egn_gender()
+            self.region_of_birth = self.get_birth_region()
+            self.astrological_sign = self.get_astro_sign()
+            self.date_of_birth = self.get_egn_dob()
 
-        self.date_of_birth = self.get_egn_dob()
         super(Profile, self).save(*args, **kwargs)
 
 

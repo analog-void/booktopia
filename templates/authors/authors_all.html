@@ -1,0 +1,80 @@
+{% extends 'core_template.html' %}
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block meta_content %}{% endblock %}
+{% block title %}Всички автори{% endblock %}
+
+
+
+{% block content_main %}
+
+    {# Add new book button   #}
+    <div class="d-flex flex-column mb-3 align-items-center">
+        <div class="p-2">
+            <a href="{% url 'add new author' %}" class="btn btn-outline-dark ">
+                {% if author.count == 0 %}
+                    Добави пътвият автор в Буктопия!
+                {% else %}
+                    Добави нов автор
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+
+
+    {# Table #}
+    <table class="table table-sm table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Име</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Псевдоним</th>
+            <th scope="col">Дата на раждане</th>
+            <th scope="col">Брой книги тук</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for i in author %}
+            <tr>
+                <th scope="row">{{ i.pk }}</th>
+                <td class=""><strong>
+                    <a href="{% url 'author detail' i.pk %}">{{ i.first_name.upper }}</a>
+                </strong></td>
+
+                <td>{{ i.last_name }}</td>
+                <td>{{ i.pseudonym|default_if_none:"няма" }}</td>
+                <td>{{ i.date_of_birth|default_if_none:'неизвестна' }}</td>
+
+                <td>{{ i.date_of_birth|default_if_none:'неизвестна' }}</td>
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# Paginations #}
+    <nav aria-label="...">
+        <ul class="pagination pagination-circle justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предишна</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Следваща</a>
+            </li>
+        </ul>
+    </nav>
+
+{% endblock %}
+
+
+

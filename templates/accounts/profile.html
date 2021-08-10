@@ -19,7 +19,7 @@
 
             <div class="text-center mt-2 mb-2 text-warning"
                  style="height: 50px;">
-                <h4>Личен профил</h4>
+                <h4>Личен профил - {{ profile.user }}</h4>
                 <p>Всички полета са задължителни</p>
             </div>
 
@@ -31,6 +31,7 @@
                 <label class="form-label" for="id_{{ form.first_name.name }}">{{ form.first_name.label }}</label>
                 <div class="form-helper"></div>
             </div>
+            {{ form.first_name.errors }}
 
 
             <div class="form-outline mt-4">
@@ -47,9 +48,10 @@
                 <label class="form-label" for="id_{{ form.family_name.name }}">{{ form.family_name.label }}</label>
                 <div class="form-helper"></div>
             </div>
+            {{ form.family_name.errors }}
 
             <div class="mt-4">
-                {% if form.gender == 1 %}
+                {% if profile.gender == 'M' %}
                     <p>Пол: <strong>Мъжки</strong></p>
                 {% else %}
                     <p>Пол: <strong>Женски</strong></p>
@@ -57,20 +59,41 @@
             </div>
 
 
-            <div class="form-outline mt-4">
-                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
-                {{ form.date_of_birth|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=8 disabled' }}
-                <label class="form-label" for="id_{{ form.date_of_birth.name }}">{{ form.date_of_birth.label }}</label>
-                <div class="form-helper"></div>
+            <div class="mt-4">
+                <p>ЕГН: <strong>{{ profile.egn_number }}</strong></p>
+            </div>
+
+            <div class="mt-4">
+                <p>Дата на Раждане: <strong>{{ profile.date_of_birth }}</strong></p>
+            </div>
+
+            <div class="mt-4">
+                <p>Възраст: <strong>{{ profile.profile_calculated_age }}</strong></p>
+            </div>
+
+            <div class="mt-4">
+                <p>Роден в област: <strong>{{ profile.region_of_birth }}</strong></p>
+            </div>
+
+            <div class="mt-4">
+                <p>Астрологичен знак: <strong>{{ profile.astrological_sign }}</strong></p>
             </div>
 
 
-            <div class="form-outline mt-4">
-                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
-                {{ form.egn_number|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=10 disabled' }}
-                <label class="form-label" for="id_{{ form.egn_number.name }}">{{ form.egn_number.label }}</label>
-                <div class="form-helper"></div>
-            </div>
+            {#            <div class="form-outline mt-4">#}
+            {#                <i class="fas fa-exclamation-circle trailing"></i>#}
+            {#                {{ form.date_of_birth|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=8 disabled' }}#}
+            {#                <label class="form-label" for="id_{{ form.date_of_birth.name }}">{{ form.date_of_birth.label }}</label>#}
+            {#                <div class="form-helper"></div>#}
+            {#            </div>#}
+
+
+            {#            <div class="form-outline mt-4">#}
+            {#                <i class="fas fa-exclamation-circle trailing"></i>#}
+            {#                {{ form.egn_number|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=10 disabled' }}#}
+            {#                <label class="form-label" for="id_{{ form.egn_number.name }}">{{ form.egn_number.label }}</label>#}
+            {#                <div class="form-helper"></div>#}
+            {#            </div>#}
 
 
             <div class="form-outline mt-4">
@@ -79,6 +102,7 @@
                 <label class="form-label" for="id_{{ form.mobile_phone.name }}">{{ form.mobile_phone.label }}</label>
                 <div class="form-helper"></div>
             </div>
+            {{ form.mobile_phone.errors }}
 
 
             {# TODO: READ-ONLY #}
@@ -89,7 +113,7 @@
                 {{ form.photo }}
             </div>
 
-            {{ form.errors }}
+            {#            {{ form.errors }}#}
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-rounded btn-outline-primary">Обнови информацията</button>
