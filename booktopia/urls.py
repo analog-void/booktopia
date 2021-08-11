@@ -15,11 +15,8 @@ urlpatterns = [
 
     # TODO: A LE MERGER AVEC PROFILE
     path('owner/', include('booktopia.book_owners.urls')),
-
-    path('shopper/', include('booktopia.book_shoppers.urls')),
-    path('hub/', include('booktopia.book_hubs.urls')),
-    path('runner/', include('booktopia.book_runners.urls')),
     path('account/', include('booktopia.accounts.urls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

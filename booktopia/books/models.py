@@ -19,13 +19,9 @@ from booktopia.settings import MEDIA_ROOT
 #
 from .submodels.authors_model import *
 from .submodels.editions_model import *
-# from .submodels.comments_model import *
-#
-# from .submodels.reviews_model import *
 from .submodels.status_model import *
 
 #
-
 
 
 UserModel = get_user_model()
@@ -140,6 +136,10 @@ class Book(models.Model):
                                    # help_text="Моля, изберете снимка"
                                    )
 
+    #
+    #
+    #
+    #
     @property
     def cover_front_url(self):
         try:
@@ -186,6 +186,7 @@ class Book(models.Model):
     #                                       verbose_name='История на заеманията', blank=True, null=True)
     book_transportation_history = models.ForeignKey(StatusHistory, on_delete=models.RESTRICT,
                                                     verbose_name='История на транспортиранията', blank=True, null=True)
+
     # book_reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE,
     #                                  verbose_name='Ревюта', blank=True, null=True)
 
@@ -195,8 +196,6 @@ class Book(models.Model):
     #
     # Random string generator for the QR code
     def qr_code_gen(self, request_type=None):
-        # code_url = ""
-        # book_id = self.pk
         cat = 'bt01'
         range_low = 1000000
         range_high = 9999999
@@ -287,6 +286,12 @@ class Comments(models.Model):
         verbose_name = 'Коментар'
         verbose_name_plural = 'Коментари'
 
+
+class Favourite(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE )
+
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,)
+#
 #
 #
 from .submodels.rent_history_model import *

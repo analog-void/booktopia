@@ -1,0 +1,61 @@
+{% extends 'core_template.html' %}
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block meta_content %}{% endblock %}
+{% block title %}Всички Издателства{% endblock %}
+
+
+
+{% block content_main %}
+
+    {# Add new book button   #}
+    <div class="d-flex flex-column mb-3 align-items-center">
+        <div class="p-2">
+            <a href="{% url 'add new edition' %}" class="btn btn-outline-dark ">
+                {% if author.count == 0 %}
+                    Добави първото издателство в Буктопия!
+                {% else %}
+                    Добави ново издателство
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+
+
+    {# Table #}
+    <table class="table table-sm table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Име</th>
+            <th scope="col">Адрес</th>
+            <th scope="col">Държава</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for el in editions %}
+            <tr>
+                <th scope="row">{{ el.pk }}</th>
+                <td class=""><strong>
+                    <a href="{% url 'edition detail' el.pk %}">{{ el.name.upper }}</a>
+                </strong></td>
+
+                <td>{{ el.address|default_if_none:"няма въведен" }}</td>
+                <td>{{ el.country|default_if_none:"няма въведена" }}</td>
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    {% include 'elements/el_paginator.html' %}
+
+{% endblock %}
+
+
+

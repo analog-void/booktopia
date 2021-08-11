@@ -1,0 +1,68 @@
+<nav aria-label="pagination">
+    {% if page_obj.has_other_pages %}
+        <ul class="pagination justify-content-center mt-5">
+            {% if page_obj.has_previous %}
+
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        Предишна страница</a></li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предишна страница</a>
+                </li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}<span
+                                class="visually-hidden">(current)</span></a>
+                        {% else %}
+                    <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                    Следваща страница</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Следваща страница</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</nav>
+
+
+{% comment %}
+    {# Don4o pagination #}
+
+    <div class="pagination justify-content-center">
+           <span class="current text-md-center">
+               Страница {{ page_obj.number }} от {{ page_obj.paginator.num_pages }}
+           </span>
+        <br>
+        {% if page_obj.has_previous %}
+            <a href="?page=1"><<< </a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предишна</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следваща</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}"> >>></a>
+               <br>
+               {{ page_obj.paginator.page_range }}
+               <br>
+               {{ page_obj.paginator.count }}
+               <br>
+               {{ page_obj.paginator.num_pages }}
+               <br>
+               {{ page_obj.paginator.get_elided_page_range }}
+               <br>
+               {{ page_obj.start_index }}
+               {{ page_obj.number }}
+        {% endif %}
+    </div>
+{% endcomment %}

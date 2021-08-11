@@ -59,9 +59,7 @@ class ProfileForm(forms.ModelForm, BootstrapFormMixin):
     def fields_checkups(self):
         first_name = self.cleaned_data['first_name']
         if not first_name:
-            raise ValidationError('Invalid date - renewal in past')
-
-
+            raise ValidationError('Празно потребителско име')
 
     class Meta:
         model = Profile
@@ -85,7 +83,6 @@ class EgnForm(forms.ModelForm, BootstrapFormMixin):
     class Meta:
         model = Profile
         fields = ('egn_number',)
-
 
 
 """

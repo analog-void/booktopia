@@ -49,32 +49,12 @@
                 <td>{{ i.pseudonym|default_if_none:"няма" }}</td>
                 <td>{{ i.date_of_birth|default_if_none:'неизвестна' }}</td>
 
-                <td>{{ i.date_of_birth|default_if_none:'неизвестна' }}</td>
-
-
+                <td>{{ i.author_book_count|default_if_none:'без' }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    {# Paginations #}
-    <nav aria-label="...">
-        <ul class="pagination pagination-circle justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предишна</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Следваща</a>
-            </li>
-        </ul>
-    </nav>
+    {% include 'elements/el_paginator.html' %}
 
 {% endblock %}
-
-
-

@@ -1,31 +1,40 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 from taggit.models import Tag
 
 from booktopia.books.models import Book, Comments
 from booktopia.books.submodels.authors_model import Author
 from booktopia.books.submodels.editions_model import Editions
-from .forms import AddAuthorForm, EditAuthorForm
+from .forms import AddAuthorForm, EditAuthorForm, AddEditionForm, EditEditionForm
 from .forms import AddBookForm, EditBookForm, BookCommentForm
+from ..accounts.models import Profile
 
 
 def index(request):
     return render(request, 'books/books_index.html')
 
 
-def show_all_books(request):
-    books = Book.objects.all()
+# def show_all_books(request):
+#     books = Book.objects.all()
+#
+#     context = {
+#         'books': books,
+#     }
+#     return render(request, 'books/books_all.html', context)
 
-    context = {
-        'books': books,
-    }
-    return render(request, 'books/books_all.html', context)
+class ShowAllBooks(ListView):
+    template_name = 'books/books_all.html'
+    model = Book
+    context_object_name = 'books'
+    paginate_by = 5
 
 
 def book_detail(request, pk):
     book = Book.objects.get(pk=pk)
     comment = Comments.objects.filter(book_id=pk)
     tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
+    profile = Profile.objects.all()
 
     is_owner = book.user == request.user
 
@@ -34,6 +43,8 @@ def book_detail(request, pk):
         'is_owner': is_owner,
         'comment': comment,
         'tags': tags,
+        'profile': profile,
+
     }
     return render(request, 'books/book_detail.html', context)
 
@@ -100,32 +111,35 @@ def delete_book(request, pk):
         return render(request, 'books/book_delete.html', context)
 
 
-@login_required
-def book_comment(request, pk):
-    form = BookCommentForm(request.POST)
-    if form.is_valid():
-        form.save()
+##################################################################
+##################################################################
+##################################################################
+# def show_all_authors(request):
+#     author = Author.objects.all()
+#
+#     context = {
+#         'author': author,
+#     }
+#     return render(request, "authors/authors_all.html", context)
 
-    return redirect('book detail', pk)
 
-
-# TODO: a les rendre en CBVs
-def show_all_authors(request):
-    author = Author.objects.all()
-
-    context = {
-        'author': author,
-    }
-    return render(request, "authors/authors_all.html", context)
+class ShowAllAuthors(ListView):
+    template_name = 'authors/authors_all.html'
+    model = Author
+    context_object_name = 'author'
+    paginate_by = 4
 
 
 def author_detail(request, pk):
     author = Author.objects.get(pk=pk)
     tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
+    # books = Book.objects.all()
+    books = Book.author_name
 
     context = {
         "author": author,
         'tags': tags,
+        'books': books
     }
     return render(request, 'authors/author_detail.html', context)
 
@@ -191,14 +205,111 @@ def delete_author(request, pk):
 ##################################################################
 ##################################################################
 ##################################################################
+# def show_all_editions(request):
+#     editions = Editions.objects.all()
+#
+#     context = {
+#         'editions': editions,
+#     }
+#     return render(request, 'editions/editions_all.html', context)
 
-def show_all_editions(request):
-    editions = Editions.objects.all()
+class ShowAllEditions(ListView):
+    template_name = 'editions/editions_all.html'
+    model = Editions
+    context_object_name = 'editions'
+    paginate_by = 4
+
+
+def edition_detail(request, pk):
+    edition = Editions.objects.get(pk=pk)
 
     context = {
-        'editions': editions,
+        "edition": edition,
     }
-    return render(request, 'editions/editions_all.html', context)
+    return render(request, 'editions/editions_detail.html', context)
+
+
+@login_required
+def add_edition(request):
+    if request.method == "POST":
+        form = AddEditionForm(request.POST, request.FILES)
+        if form.is_valid():
+            edition = form.save(commit=False)
+            # book = Book.objects.get(pk=Book.pk)
+            edition.user = request.user
+
+            edition.save()
+
+            return redirect('all my editions table')
+
+    else:
+        form = AddEditionForm
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'editions/editions_add.html', context)
+
+
+@login_required
+def edit_edition(request, pk):
+    edition = Editions.objects.get(pk=pk)
+    if request.method == "POST":
+        form = EditEditionForm(request.POST, request.FILES, instance=edition)
+        if form.is_valid():
+            form.save()
+
+            return redirect('all my editions table')
+
+    else:
+        form = EditEditionForm(instance=edition)
+
+    context = {
+        'form': form,
+        'edition': edition,
+    }
+
+    return render(request, 'editions/editions_edit.html', context)
+
+
+@login_required
+def delete_edition(request, pk):
+    edition = Editions.objects.get(pk=pk)
+    if request.method == "POST":
+        edition.delete()
+        return redirect('all my editions table')
+
+    else:
+        context = {
+            'edition': edition,
+        }
+        return render(request, 'editions/editions_delete.html', context)
+
+
+##################################################################
+##################################################################
+
+@login_required
+def book_comment(request, pk):
+    form = BookCommentForm(request.POST)
+    if form.is_valid():
+        form.save()
+
+    return redirect('book detail')
+
+
+@login_required
+def author_comment(request, pk):
+    form = BookCommentForm(request.POST)
+    if form.is_valid():
+        form.save()
+
+    return redirect('author detail')
+
+
+def ranking(request):
+    return render(request, 'books/ranking.html')
 
 
 """

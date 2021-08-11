@@ -1,7 +1,6 @@
 from django.urls import path
 
-
-from .views import sign_in_user, register_user, logout_user, user_profile, egn_checker
+from .views import sign_in_user, register_user, logout_user, user_profile, egn_checker, ShowAllProfiles
 
 urlpatterns = [
     path('signin/', sign_in_user, name='sign in'),
@@ -9,5 +8,7 @@ urlpatterns = [
     path('signout/', logout_user, name='sign out'),
     path('profile/', user_profile, name='profile'),
     path('egn_check/', egn_checker, name='egn checker'),
+
+    path('all_profiles/', ShowAllProfiles.as_view(), name='all profiles'),
 
 ]

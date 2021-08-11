@@ -3,6 +3,7 @@ import egn
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
 from booktopia.accounts.forms import LoginForm, RegisterForm
 from booktopia.accounts.models import Profile
@@ -49,7 +50,6 @@ def register_user(request):
     return render(request, 'accounts/sign-up.html', context)
 
 
-@login_required
 def logout_user(request):
     logout(request)
     return redirect('book index')
@@ -95,7 +95,6 @@ def egn_checker(request):
         form_egn = EgnForm(
             request.POST,
             instance=profile,
-
         )
 
         if form_egn.is_valid():
@@ -120,7 +119,6 @@ def egn_checker(request):
         else:
             return redirect('egn checker')
 
-
     else:
         form_egn = EgnForm(instance=profile)
 
@@ -132,6 +130,13 @@ def egn_checker(request):
     return render(request, 'accounts/egn_checker.html', context)
 
 
+@login_required
+class ShowAllProfiles(ListView):
+    template_name = 'accounts/profile_all.html'
+    model = Profile
+    context_object_name = 'profile'
+    paginate_by = 5
+
 
 """
 DUMMY USERS
@@ -140,6 +145,4 @@ xxx@beta2.com
 alpha@gamma.com
 
 PassWord1
-
-
 """

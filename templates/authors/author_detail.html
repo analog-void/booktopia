@@ -78,11 +78,11 @@
                 <div class="row">
                     <div class="col-md">
                         <p>Дата на раждане</p>
-                        <h4>{{ author.date_of_birth|upper }}</h4>
+                        <h4>{{ author.date_of_birth|upper|default_if_none:'Не е въведена' }}</h4>
                     </div>
                     <div class="col-md">
                         <p>Починал</p>
-                        <h4>{{ author.date_of_death|title }}</h4>
+                        <h4>{{ author.date_of_death|default_if_none:'' }}</h4>
                     </div>
                     <div class="col-md">
                         <p>Възраст</p>
@@ -100,7 +100,7 @@
                         <p>Линк с допълнителна информация</p>
 
                         {% if author.wiki_page %}
-                            <a href="{{ author.wiki_page }}">{{ author.wiki_page }}</a>
+                            <a href="{{ author.wiki_page }}" target="_blank">{{ author.wiki_page }}</a>
                         {% else %}
                             <strong>Няма</strong>
                         {% endif %}
@@ -116,23 +116,23 @@
             </div>
             <hr>
 
-                {# Modify book info form button #}
-                <div class="d-flex flex-column mb-3 align-items-center">
-                    <div class="p-2 align-items-center">
-                        <a href="{% url 'edit author' author.id %}" class="btn btn-outline-dark ">
-                            Промени Данните за автора
-                        </a>
-                    </div>
+            {# Modify book info form button #}
+            <div class="d-flex flex-column mb-3 align-items-center">
+                <div class="p-2 align-items-center">
+                    <a href="{% url 'edit author' author.id %}" class="btn btn-outline-dark ">
+                        Промени Данните за автора
+                    </a>
                 </div>
+            </div>
 
-                {# Delete book #}
-                <div class="d-flex flex-column mb-3 align-items-center">
-                    <div class="p-2 align-items-center">
-                        <a href="{% url 'delete author' author.id %}" class="btn-danger btn-outline-dark ">
-                            Изтрий автора
-                        </a>
-                    </div>
+            {# Delete book #}
+            <div class="d-flex flex-column mb-3 align-items-center">
+                <div class="p-2 align-items-center">
+                    <a href="{% url 'delete author' author.id %}" class="btn-danger btn-outline-dark ">
+                        Изтрий автора
+                    </a>
                 </div>
+            </div>
         </div>
 
 
@@ -141,6 +141,13 @@
              id="ex3-tabs-2"
              role="tabpanel"
              aria-labelledby="ex3-tab-2">
+
+{#            <p>grrrr</p>#}
+{#            {{ books.last_name }}#}
+{#            {% for el in books.last_name %}#}
+{#                {{ el }}#}
+{#            {% endfor %}#}
+
 
         </div>
 

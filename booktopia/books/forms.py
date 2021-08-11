@@ -161,7 +161,7 @@ class EditAuthorForm(forms.ModelForm, BootstrapFormMixin):
         fields = '__all__'
 
 
-class AddEditionsForm(forms.ModelForm, BootstrapFormMixin):
+class AddEditionForm(forms.ModelForm, BootstrapFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap()
@@ -171,7 +171,7 @@ class AddEditionsForm(forms.ModelForm, BootstrapFormMixin):
         fields = '__all__'
 
 
-class EditEditionsForm(forms.ModelForm, BootstrapFormMixin):
+class EditEditionForm(forms.ModelForm, BootstrapFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap()

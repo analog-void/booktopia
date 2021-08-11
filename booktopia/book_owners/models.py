@@ -5,11 +5,6 @@ from django.db import models
 
 from booktopia.common.general_choices import GENDER_CHOICES
 
-"""
-
-
-"""
-
 
 class Owner(models.Model):
     first_name = models.CharField(max_length=25, verbose_name='Име',
@@ -57,5 +52,4 @@ class Owner(models.Model):
         self.email = self.email.lower()
         super().save(*args, **kwargs)
 
-# TODO:
 

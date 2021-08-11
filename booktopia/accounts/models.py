@@ -2,8 +2,8 @@ from datetime import date
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.core.exceptions import ValidationError
 from django.db import models
-# from datetime import date
 from egn import parse
 
 from .managers import BooktopiaUserManager
@@ -12,6 +12,10 @@ from ..common.general_choices import GENDER_CHOICES
 
 
 class BooktopiaUser(AbstractBaseUser, PermissionsMixin):
+    # FIXME: d'ou cela vient et pqoi ca fait tout planter ...
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(args, kwargs)
+
     email = models.EmailField(
         unique=True,
         max_length=100,
@@ -114,6 +118,91 @@ class Profile(models.Model):
                                              blank=True, null=True,
                                              verbose_name='Дата на промяна на записа')
 
+    @property
+    def user_data_progress(self):
+        # total sum = 100%
+        egn = 16.66 if self.egn_number else 0
+        first_name = 16.66 if self.first_name else 0
+        middle_name = 16.66 if self.middle_name else 0
+        family_name = 16.66 if self.family_name else 0
+        mobile_phone = 16.66 if self.mobile_phone else 0
+
+        # FIXME: DEFAULT PROFILE PHOTO
+        profile_photo = 16.7 if not self.photo.name == 'profile-default.jpg' else 0
+
+        somme = egn + first_name + middle_name + family_name + mobile_phone + profile_photo
+        return somme
+
+    @property
+    def user_ranking(self):
+        ranking = 'Гражданин на Буктопия'
+
+        comments = self.user.comments_set.count()
+        books = self.user.book_set.count()
+
+        if comments and books:
+            ranking = 'Продавач на енциклопедии'
+        if comments > 10 and books > 3:
+            ranking = 'Стажант'
+        elif comments > 20 and books > 10:
+            ranking = 'Чиновник'
+        elif comments > 30 and books > 15:
+            ranking = 'Писател'
+        elif comments > 40 and books > 15:
+            ranking = 'Писател'
+        elif comments > 50 and books > 20:
+            ranking = 'Главен Счетоводител'
+        elif comments > 60 and books > 25:
+            ranking = 'Книговезец'
+        elif comments > 70 and books > 30:
+            ranking = 'Коректор Печат'
+        elif comments > 80 and books > 35:
+            ranking = 'Помощник библиотекар'
+        elif comments > 90 and books > 40:
+            ranking = 'Библиотекар'
+        elif comments > 100 and books > 45:
+            ranking = 'Старши библиотекар'
+        elif comments > 110 and books > 50:
+            ranking = 'Архивист'
+        elif comments > 120 and books > 55:
+            ranking = 'Велик архивист'
+        elif comments > 130 and books > 60:
+            ranking = 'Редактор'
+        elif comments > 140 and books > 65:
+            ranking = 'Главен редактор'
+        elif comments > 150 and books > 70:
+            ranking = 'Издател'
+        elif comments > 160 and books > 75:
+            ranking = 'Почетен издател'
+        elif comments > 170 and books > 80:
+            ranking = 'Графолог'
+        elif comments > 180 and books > 85:
+            ranking = 'Лексикоман Любител'
+        elif comments > 190 and books > 90:
+            ranking = 'Напреднал Лексикоман'
+        elif comments > 200 and books > 95:
+            ranking = 'Велик Лексикоман'
+        elif comments > 215 and books > 100:
+            ranking = 'Шампион по Судоку'
+        elif comments > 225 and books > 150:
+            ranking = 'Чудовището от речника'
+        elif comments > 235 and books > 200:
+            ranking = 'Преводач на Хари Потър'
+        elif comments > 245 and books > 250:
+            ranking = 'Преводач на Франц Кафка'
+        elif comments > 255 and books > 300:
+            ranking = 'Преводач на Джеймс Джойс'
+        elif comments > 265 and books > 350:
+            ranking = 'Книжен плъх'
+        elif comments > 275 and books > 400:
+            ranking = 'Почетен Гражданин на Буктопия'
+        elif comments > 285 and books > 450:
+            ranking = 'Буктопия Гуру'
+        elif comments > 300 and books > 500:
+            ranking = 'Велик Везир на Буктопия'
+
+        return ranking
+
     def clean(self):
         if not self.first_name or \
                 len(self.first_name) < 3 or \
@@ -195,11 +284,9 @@ class Profile(models.Model):
 
         return astro_sign
 
-    """
-    {"year": 1978, "month": 10, "day": 15, "region_bg": 
-    "\u0412\u0430\u0440\u043d\u0430", "region_en": "Varna", 
-    "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
-    """
+    # {"year": 1978, "month": 10, "day": 15, "region_bg":
+    # "\u0412\u0430\u0440\u043d\u0430", "region_en": "Varna",
+    # "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
 
     def profile_calculated_age(self):
         today = date.today()

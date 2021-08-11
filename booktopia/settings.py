@@ -1,6 +1,5 @@
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.template.defaultfilters import join
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,15 +28,18 @@ INSTALLED_APPS = [
     'booktopia.accounts',
     'booktopia.books',
     'booktopia.book_owners',
-    'booktopia.book_shoppers',
-    'booktopia.book_hubs',
     'booktopia.book_runners',
+
     # TODO: Financial Movements
+
+    # disabled, because not enough time to implement
+    # 'booktopia.book_shoppers',
+    # 'booktopia.book_hubs',
 
     # OTHER APPS
     'widget_tweaks',
     'taggit',
-
+    'import_export',
 
 ]
 
@@ -98,6 +100,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
+# FIXME: TO PUT IN INITIAL STATE !!!
 AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -116,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'bg-BG'
 
 TIME_ZONE = 'UTC'
 
@@ -133,17 +136,15 @@ STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
 
-# Grippelli Setup
-# STATIC_ROOT = (
-#     BASE_DIR / 'static/'
-# )
+# Grippelli and required static files
+# FIXME: STATIC FILES EN DOUBLE !!!
+STATIC_ROOT = (
+    BASE_DIR / 'static_files_server/'
+)
 
 # MEDIA FILES PATH - A VOIR
 MEDIA_ROOT = (BASE_DIR / 'media_upload')
 MEDIA_URL = '/media_upload/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

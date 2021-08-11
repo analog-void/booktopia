@@ -1,6 +1,9 @@
 /.idea
 .idea/
 
+#Static files
+#static_files_server/
+
 # Environments
 .env
 .venv
