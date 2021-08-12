@@ -1,25 +1,49 @@
-from booktopia.books.models import Book, Author, Editions, RentHistory, StatusHistory, Comments, CommentsAuthors, \
+from booktopia.books.models import Book, Author, Editions, StatusHistory, Comments, CommentsAuthors, \
     CommentsEditions
 from booktopia.common.admin_common_fields import book_common_fields, author_common_fields
 from booktopia.common.admin_settings import *
 
-# admin.TabularInline
 
-# class AuthorInline(admin.StackedInline):
-#     model = Author
-#     extra = 0
-#     # classes = ['collapse']
-#     fieldsets = author_common_fields
-#
-#     # allow_add = True
-#     allow_add = False
+class AuthorInline(admin.StackedInline):
+    model = Author
+    extra = 0
+    # classes = ['collapse']
+    fieldsets = author_common_fields
+    allow_add = True
+    # allow_add = False
+
+
+class BookInline(admin.StackedInline):
+    model = Book
+    extra = 0
+    classes = ['collapse']
+    fieldsets = book_common_fields
+    allow_add = True
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('first_name',
+                    'last_name',
+                    'pseudonym',
+                    'date_of_birth',
+                    'nationality',)
+
+    ordering = ('last_name',)
+    search_fields = ('last_name', 'pseudonym')
+    list_filter = ('first_name', 'last_name', 'nationality',)
+
+    allow_add = True
+
+    # inlines = [
+    #     BookInline
+    # ]
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('name',  'editions',
+    list_display = ('name', 'editions',
                     'user', 'book_current_status', 'visual_condition')
     ordering = ('name',)
-    search_fields = ('name', 'editions',) #'author_name'
+    search_fields = ('name', 'editions',)  # 'author_name'
 
     list_filter = ('name', 'editions',
                    'visual_condition', 'book_to_read_by_owner',
@@ -35,6 +59,76 @@ class BookAdmin(admin.ModelAdmin):
     # ]
 
 
+class EditionsAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'country',
+        'stars')
+
+    ordering = ('name',)
+    search_fields = ('name', 'country',)
+    list_filter = ('name', 'country')
+
+
+
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = ('user_id',
+                    'book_id',
+                    'record_created_at',
+                    'record_updated_at')
+
+    ordering = ('user_id',
+                'book_id',)
+
+    search_fields = ('user_id',
+                     'book_id',)
+
+    list_filter = ('user_id',
+                   'book_id',)
+
+
+class AuthorsCommentsAdmin(admin.ModelAdmin):
+    list_display = ('user_id',
+                    'author_id',
+                    'record_created_at',
+                    'record_updated_at')
+
+    ordering = ('user_id',
+                'author_id',)
+
+    search_fields = ('user_id',
+                     'author_id',)
+
+    list_filter = ('user_id',
+                   'author_id',)
+
+
+class EditionsCommentsAdmin(admin.ModelAdmin):
+    list_display = ('user_id',
+                    'edition_id',
+                    'record_created_at',
+                    'record_updated_at')
+
+    ordering = ('user_id',
+                'edition_id',)
+
+    search_fields = ('user_id',
+                     'edition_id',)
+
+    list_filter = ('user_id',
+                   'edition_id',)
+
+
+admin.site.register(Author, AuthorAdmin)
+admin.site.register(Book, BookAdmin)
+
+admin.site.register(Editions, EditionsAdmin)
+admin.site.register(StatusHistory)
+
+admin.site.register(Comments, CommentsAdmin)
+admin.site.register(CommentsAuthors, AuthorsCommentsAdmin)
+admin.site.register(CommentsEditions, EditionsCommentsAdmin)
+
 """
 class UserAdmin(admin.StackedInline):
     model = User
@@ -44,16 +138,6 @@ class ContactAdmin(admin.StackedInline):
 class UserProfileAdmin(admin.ModelAdmin):
     inlines = [ UserAdmin, ContactAdmin ]
 """
-
-
-class BookInline(admin.StackedInline):
-    model = Author
-    extra = 0
-    classes = ['collapse']
-    fieldsets = book_common_fields
-
-    allow_add = True
-
 
 # class AuthorAdmin(admin.ModelAdmin):
 #     inlines = [
@@ -69,7 +153,7 @@ class BookInline(admin.StackedInline):
 
 
 #################
-# FIXME: Comment admin
+
 """
 class CommentInline(admin.StackedInline):
     model = Book
@@ -89,19 +173,3 @@ class CommentAdmin(admin.ModelAdmin):
 
     #### readonly_fields = ('record_created_at', 'record_updated_at')
 """
-
-admin.site.register(Author)
-# admin.site.register(Author, AuthorAdmin)
-admin.site.register(Book, BookAdmin)
-# admin.site.register(Comments, CommentAdmin)
-
-admin.site.register(Editions)
-admin.site.register(StatusHistory)
-
-admin.site.register(Comments)
-admin.site.register(CommentsAuthors)
-admin.site.register(CommentsEditions)
-
-
-# admin.site.register(RentHistory)
-# admin.site.register(Reviews)
