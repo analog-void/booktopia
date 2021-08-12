@@ -8,7 +8,7 @@ https://github.com/analog-void/booktopia/
   	- 
 - owner >>> to user
 - TAGS - без реална употреба на този етап
-- Автори - държавата за раждане не се появява в изгледа. да се направи querryset()
+- Автори - държавата за раждане не се появява в изгледа. да се направи queryset()
 - ЕГН - веднъж въведено, да не може повече да се достъпва до линка за въвеждане
 
 
@@ -16,10 +16,10 @@ https://github.com/analog-void/booktopia/
 # TODO:
 
 ## DESIGN / FRONTEND
-- [ ] SCORING - ЕВОЛЮЦИЯ НА ПОТРЕБИТЕЛИТЕ И ГЕНЕРИРАНЕ НА РЕЙТИНГ СПОРЕД КОМЕНТАРИ И КНИГИ
-- [ ] REGEX ВАЛИДАТОР НА ТЕЛЕФОНЕН НОМЕР БГ
+- [x] SCORING - ЕВОЛЮЦИЯ НА ПОТРЕБИТЕЛИТЕ И ГЕНЕРИРАНЕ НА РЕЙТИНГ СПОРЕД КОМЕНТАРИ И КНИГИ
+- [x] REGEX ВАЛИДАТОР НА ТЕЛЕФОНЕН НОМЕР БГ
 - [ ] СМЯНА НА ХЕДЪРА С РАЗЛИЧЕН СТОКФОТО (JUMBOTRON)
-- [ ] ДА СЕ ПОКАЗВА ИМЕТО НА ПОТРЕБИТЕЛЯ В ТАБЛИЦАТА С КНИГИТЕ
+- [x] ДА СЕ ПОКАЗВА ИМЕТО НА ПОТРЕБИТЕЛЯ В ТАБЛИЦАТА С КНИГИТЕ
   - [ ] ДА СЕ ДОБАВИ КОГА Е ДОБАВЕНА КНИГАТА
   
 - [x] IS_OWNER IN BOOKS = ДА СЕ СЛОЖИ ПРЕДИ БУТОНИТЕ
@@ -31,9 +31,9 @@ https://github.com/analog-void/booktopia/
 - [ ] ДА НЕ НАПРАВЯТ БУТОНИ ЗА ИЗБОР НА РОЛЯ ПО ВРЕМЕ НА РЕГИСТРТАЦИЯТА
 
 - [ ] METTRE UN BOUTON QUI AFFICHE UNE BOULE D'AIDE A COTE DES CHAMPS - UN POPUP?
-- [ ] PAGINATION НА СТРАНИЦИТЕ (TABLES)
-	- [ ] BOOKS
-	- [ ] AUTEURS
+- [x] PAGINATION НА СТРАНИЦИТЕ (TABLES)
+	- [x] BOOKS
+	- [x] AUTEURS
 	- [ ] PRES DE MOI
 	- [ ] RESERVATIONS
 	- [ ] PAST ...
@@ -50,21 +50,20 @@ https://github.com/analog-void/booktopia/
 - [ ] a faire la page interne quant tu te log - les dermers bouquins, news etc
 - [ ] ДА СЕ ОПРАВЯТ ЛИНКОВЕТЕ ВЪВ ФУТЪРА
 
-да има селери/крон, който всеки ден проверява началната дата на заеманията (или три дни преди това) и ако има 
+***
+- [ ] да има селери/крон, който всеки ден проверява началната дата на заеманията (или три дни преди това) и ако има 
 започваща или завършваща да се предлага в бонтитата като възмойност за взимане (да се посочи мястото за взимане в 
 този случай)
-
-
 
 
 ## CRITICAL / BACKEND
 - [ ] FAIRE UN AUTRE MENU, AQUAND LES GENS ONT PAS ENCORE DE PROFIL (MENU)
 
-- [ ] A VIRER LES OWNERS
-  STATUS HISTORY
+- [x] A VIRER LES OWNERS
+- [ ] STATUS HISTORY
   
 
-- [ ] FAIRE LA BIZLOGIC LORS DE LA CONNEXION 
+- [x] FAIRE LA BIZLOGIC LORS DE LA CONNEXION 
 - [X] A FAIRE LE SYSTEME DE LOGIN
 	- [X] LOGIN FORM
 	- [X] REGISTER FORM
@@ -79,8 +78,6 @@ https://github.com/analog-void/booktopia/
 	- [ ] CONFIRMATION POPUP (EN MODAL)
 
 
-
-
 ## ADMIN
 REFAIRE LES VIEWS POUR:
 - Потребителски Акаунти
@@ -91,14 +88,9 @@ REFAIRE LES VIEWS POUR:
 
 
 ## VRAC
-	# TODO: a ajouter plusieurs auteurs par livre,
-	# agrandir le synopsis
-	# Стойност на гаранцията (лв.): - Add value
-	# Release year - DATE type
-	# Con avec un API? > ISBN ET AUTRE
-	# VOIR COMMENT LES CHOSES SONT FAITES A CHITANKA
-
-
-# DONE
-- DELETE - нещо не става потвърждението
-
+- [ ] a ajouter plusieurs auteurs par livre, 
+- [ ] agrandir le synopsis
+- [ ] Стойност на гаранцията (лв.): - Add value
+- [ ] Release year - DATE type
+- [ ] Con avec un API? > ISBN ET AUTRE
+- [ ] VOIR COMMENT LES CHOSES SONT FAITES A CHITANKA

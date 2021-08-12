@@ -1,135 +1,47 @@
 {% extends 'core_template.html' %}
 {% load static %}
-{% load widget_tweaks %}
-
-
 {% block meta_description %}{% endblock %}
 {% block meta_content %}{% endblock %}
+{% block title %}Потребителски профили{% endblock %}
 
-{% block title %}Потребителски профил{% endblock %}
 
 {% block content_main %}
 
-    <div class="container">
+    <div class="text-center mb-4 text-info">
+        <p>Тази страница не би могла да съществува в реален проект.
+            Тук е за тестови цели.</p>
 
-        <form action="{% url 'profile' %}"
-              class="w-50 m-auto needs-validation"
-              method="post"
-              enctype="multipart/form-data">
-
-            <div class="text-center mt-2 mb-2 text-warning"
-                 style="height: 100px;">
-                <h4>Личен профил - {{ profile.user }}</h4>
-                <p>Всички полета са задължителни.</p>
-
-                {% if profile.user_data_progress < 100 %}
-                    <p class="text-danger">Профилът е завършен на
-                        <strong>{{ profile.user_data_progress }}</strong> процента.</p>
-                {% else %}
-                    <p class="text-success">Профилът е завършен на
-                        <strong>{{ profile.user_data_progress }}</strong> процента.</p>
-                {% endif %}
-            </div>
-
-            {% csrf_token %}
-
-            <div class="form-outline mt-4">
-                <i class="fas fa-exclamation-circle trailing"></i>
-                {{ form.first_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
-                <label class="form-label" for="id_{{ form.first_name.name }}">{{ form.first_name.label }}</label>
-                <div class="form-helper"></div>
-            </div>
-            {{ form.first_name.errors }}
-
-            <div class="form-outline mt-4">
-                <i class="fas fa-exclamation-circle trailing"></i>
-                {{ form.middle_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
-                <label class="form-label" for="id_{{ form.middle_name.name }}">{{ form.middle_name.label }}</label>
-                <div class="form-helper"></div>
-            </div>
-
-
-            <div class="form-outline mt-4">
-                <i class="fas fa-exclamation-circle trailing"></i>
-                {{ form.family_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
-                <label class="form-label" for="id_{{ form.family_name.name }}">{{ form.family_name.label }}</label>
-                <div class="form-helper"></div>
-            </div>
-            {{ form.family_name.errors }}
-
-            <div class="mt-4">
-                {% if profile.gender == 'M' %}
-                    <p>Пол: <strong>Мъжки</strong></p>
-                {% else %}
-                    <p>Пол: <strong>Женски</strong></p>
-                {% endif %}
-            </div>
-
-
-            <div class="mt-4">
-                <p>ЕГН: <strong>{{ profile.egn_number }}</strong></p>
-            </div>
-
-            <div class="mt-4">
-                <p>Дата на Раждане: <strong>{{ profile.date_of_birth }}</strong></p>
-            </div>
-
-            <div class="mt-4">
-                <p>Възраст: <strong>{{ profile.profile_calculated_age }}</strong></p>
-            </div>
-
-            <div class="mt-4">
-                <p>Роден в област: <strong>{{ profile.region_of_birth }}</strong></p>
-            </div>
-
-            <div class="mt-4">
-                <p>Астрологичен знак: <strong>{{ profile.astrological_sign }}</strong></p>
-            </div>
-
-
-            {#            <div class="form-outline mt-4">#}
-            {#                <i class="fas fa-exclamation-circle trailing"></i>#}
-            {#                {{ form.date_of_birth|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=8 disabled' }}#}
-            {#                <label class="form-label" for="id_{{ form.date_of_birth.name }}">{{ form.date_of_birth.label }}</label>#}
-            {#                <div class="form-helper"></div>#}
-            {#            </div>#}
-
-
-            {#            <div class="form-outline mt-4">#}
-            {#                <i class="fas fa-exclamation-circle trailing"></i>#}
-            {#                {{ form.egn_number|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=10 disabled' }}#}
-            {#                <label class="form-label" for="id_{{ form.egn_number.name }}">{{ form.egn_number.label }}</label>#}
-            {#                <div class="form-helper"></div>#}
-            {#            </div>#}
-
-
-            <div class="form-outline mt-4">
-                {#                <i class="fas fa-exclamation-circle trailing"></i>#}
-                {{ form.mobile_phone|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=20' }}
-                <label class="form-label" for="id_{{ form.mobile_phone.name }}">{{ form.mobile_phone.label }}</label>
-                <div class="form-helper"></div>
-            </div>
-            {{ form.mobile_phone.errors }}
-
-
-            <p class="mt-1">Профилна снимка</p>
-            <div class="form-outline mt-n3">
-                {{ form.photo }}
-            </div>
-
-            {# {{ form.errors }}#}
-
-            {{ profile.user_ranking }}
-
-
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-rounded btn-outline-primary">Обнови информацията</button>
-            </div>
-
-        </form>
     </div>
 
+    <table class="table table-sm table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Име</th>
+            <th scope="col">Презиме</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Мобилен</th>
+            <th scope="col">Профил</th>
+            <th scope="col">Ранк</th>
+        </tr>
+        </thead>
+        <tbody>
 
+        {% for el in profile %}
+            <tr>
+                <td>{{ el.pk }}</td>
+                <td>{{ el.first_name }}</td>
+                <td>{{ el.middle_name }}</td>
+                <td>{{ el.family_name }}</td>
+                <td>{{ el.mobile_phone }}</td>
+                <td>{{ el.user_data_progress }} %</td>
+                <td>{{ el.user_ranking }}</td>
+            </tr>
+        {% endfor %}
 
+        </tbody>
+    </table>
+
+    {% include 'elements/el_paginator.html' %}
 
 {% endblock %}

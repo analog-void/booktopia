@@ -30,6 +30,18 @@
                aria-controls="ex3-tabs-2"
                aria-selected="false">Произведения</a>
         </li>
+
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link"
+               id="ex3-tab-3"
+               data-mdb-toggle="tab"
+               href="#ex3-tabs-3"
+               role="tab"
+               aria-controls="ex3-tabs-3"
+               aria-selected="false">Коментари</a>
+        </li>
+
     </ul>
     <!-- Tabs -->
 
@@ -81,62 +93,71 @@
 
                 </div>
             </div>
-
-
-        </div>
-        <hr>
-
-        {#            {% if is_owner %}#}
-        {# Modify book info form button #}
-        <div class="d-flex flex-column mb-3 align-items-center">
-            <div class="p-2 align-items-center">
-                <a href="{% url 'edit edition' edition.id %}" class="btn btn-outline-dark ">
-                    Промени Съдържанието
-                </a>
+            <div class="d-flex flex-column mb-3 align-items-center">
+                <div class="p-2 align-items-center">
+                    <a href="{% url 'edit edition' edition.id %}" class="btn btn-outline-dark ">
+                        Промени Съдържанието
+                    </a>
+                </div>
             </div>
-        </div>
 
-        {# Delete book #}
-        <div class="d-flex flex-column mb-3 align-items-center">
-            <div class="p-2 align-items-center">
-                <a href="{% url 'delete edition' edition.id %}" class="btn-danger btn-outline-dark ">
-                    Изтрий издателството
-                </a>
+            {# Delete book #}
+            <div class="d-flex flex-column mb-3 align-items-center">
+                <div class="p-2 align-items-center">
+                    <a href="{% url 'delete edition' edition.id %}" class="btn-danger btn-outline-dark ">
+                        Изтрий издателството
+                    </a>
+                </div>
             </div>
+            <hr>
         </div>
-        {#            {% endif %}#}
+
+
+        {# TAB 2 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-2"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-2">
+            <p>un autre tab</p>
+        </div>
+
+
+        {# TAB 3 content #}
+        <div class="tab-pane fade"
+             id="ex3-tabs-3"
+             role="tabpanel"
+             aria-labelledby="ex3-tab-3">
+
+            <div class="container">
+                {% for el in comments %}
+                    <table class="table table-sm table-hover table-bordered mb-5">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">от: {{ el.user_id }}</th>
+                            <th scope="col">на дата: {{ el.record_created_at }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr class="table-light">
+                            <td colspan="2">{{ el.comment }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+
+            <form action="{% url 'new comment edition' edition.pk %}" class="w-50 m-auto" method="post">
+                {% csrf_token %}
+                {{ form }}
+                {{ form.errors }}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-rounded btn-outline-primary">Добави нов коментар</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-
-    {# TAB 2 content #}
-    <div class="tab-pane fade"
-         id="ex3-tabs-2"
-         role="tabpanel"
-         aria-labelledby="ex3-tab-2">
-        {% for c in comment %}
-            <p class="text-center text-">{{ c.user_id }} {{ c.book_id }} {{ c.comment }} {{ c.pk }}</p>
-        {% endfor %}
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}

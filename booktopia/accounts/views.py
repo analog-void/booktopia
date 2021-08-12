@@ -130,12 +130,12 @@ def egn_checker(request):
     return render(request, 'accounts/egn_checker.html', context)
 
 
-@login_required
+# @login_required
 class ShowAllProfiles(ListView):
     template_name = 'accounts/profile_all.html'
     model = Profile
     context_object_name = 'profile'
-    paginate_by = 5
+    paginate_by = 10
 
 
 """

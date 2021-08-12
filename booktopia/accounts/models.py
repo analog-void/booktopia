@@ -3,6 +3,7 @@ from datetime import date
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models
 from egn import parse
 
@@ -102,9 +103,17 @@ class Profile(models.Model):
                                          verbose_name='Зодиакален знак')
 
     # FIXME: VERIF - UNIQUE NUMBER - , unique=True,
+    #
+    PHONE_REGEX_VALIDATOR = RegexValidator(r'^(\+359|0)[ ]\s?8(\d{2}\s\d{3}[-]\d{3}|[789]\d{7})$',
+                                           message="Невалиден телефонен номер")
+    # ^(\+359|0)\s?8(\d{2}\s\d{3}\d{3}|[789]\d{7})$
+    # ^(\+359|0)[ ]\s?8(\d{2}\s\d{3}[-]\d{3}|[789]\d{7})$
+
     mobile_phone = models.CharField(max_length=20,
-                                    null=True, blank=True, default='+359 8',
-                                    verbose_name='Мобилен телефон')
+                                    null=True, blank=True, unique=True,
+                                    verbose_name='Мобилен телефон във формат +359 888 123-456 или 0 888 123-456',
+                                    validators=[PHONE_REGEX_VALIDATOR]
+                                    )
 
     photo = models.ImageField(upload_to='photo_owners',
                               null=True, blank=True,
@@ -135,71 +144,72 @@ class Profile(models.Model):
 
     @property
     def user_ranking(self):
-        ranking = 'Гражданин на Буктопия'
+        ranking = '-'
+            # 'Новодошъл'
 
         comments = self.user.comments_set.count()
         books = self.user.book_set.count()
 
         if comments and books:
-            ranking = 'Продавач на енциклопедии'
+            ranking = 'Продавач на енциклопедии (1)'
         if comments > 10 and books > 3:
-            ranking = 'Стажант'
+            ranking = 'Стажант (2)'
         elif comments > 20 and books > 10:
-            ranking = 'Чиновник'
+            ranking = 'Чиновник (3)'
         elif comments > 30 and books > 15:
-            ranking = 'Писател'
+            ranking = 'Писател (4)'
         elif comments > 40 and books > 15:
-            ranking = 'Писател'
+            ranking = 'Писател (5)'
         elif comments > 50 and books > 20:
-            ranking = 'Главен Счетоводител'
+            ranking = 'Главен Счетоводител (6)'
         elif comments > 60 and books > 25:
-            ranking = 'Книговезец'
+            ranking = 'Книговезец (7)'
         elif comments > 70 and books > 30:
-            ranking = 'Коректор Печат'
+            ranking = 'Коректор Печат (8)'
         elif comments > 80 and books > 35:
-            ranking = 'Помощник библиотекар'
+            ranking = 'Помощник библиотекар (9)'
         elif comments > 90 and books > 40:
-            ranking = 'Библиотекар'
+            ranking = 'Библиотекар (10)'
         elif comments > 100 and books > 45:
-            ranking = 'Старши библиотекар'
+            ranking = 'Старши библиотекар (11)'
         elif comments > 110 and books > 50:
-            ranking = 'Архивист'
+            ranking = 'Архивист (12)'
         elif comments > 120 and books > 55:
-            ranking = 'Велик архивист'
+            ranking = 'Велик архивист (13)'
         elif comments > 130 and books > 60:
-            ranking = 'Редактор'
+            ranking = 'Редактор (14)'
         elif comments > 140 and books > 65:
-            ranking = 'Главен редактор'
+            ranking = 'Главен редактор (15)'
         elif comments > 150 and books > 70:
-            ranking = 'Издател'
+            ranking = 'Издател (16)'
         elif comments > 160 and books > 75:
-            ranking = 'Почетен издател'
+            ranking = 'Почетен издател (17)'
         elif comments > 170 and books > 80:
-            ranking = 'Графолог'
+            ranking = 'Графолог (18)'
         elif comments > 180 and books > 85:
-            ranking = 'Лексикоман Любител'
+            ranking = 'Лексикоман Любител (19)'
         elif comments > 190 and books > 90:
-            ranking = 'Напреднал Лексикоман'
+            ranking = 'Напреднал Лексикоман (20)'
         elif comments > 200 and books > 95:
-            ranking = 'Велик Лексикоман'
+            ranking = 'Велик Лексикоман (21)'
         elif comments > 215 and books > 100:
-            ranking = 'Шампион по Судоку'
+            ranking = 'Шампион по Судоку (22)'
         elif comments > 225 and books > 150:
-            ranking = 'Чудовището от речника'
+            ranking = 'Чудовището от речника (23)'
         elif comments > 235 and books > 200:
-            ranking = 'Преводач на Хари Потър'
+            ranking = 'Преводач на Хари Потър (24)'
         elif comments > 245 and books > 250:
-            ranking = 'Преводач на Франц Кафка'
+            ranking = 'Преводач на Франц Кафка (25)'
         elif comments > 255 and books > 300:
-            ranking = 'Преводач на Джеймс Джойс'
+            ranking = 'Преводач на Джеймс Джойс (26)'
         elif comments > 265 and books > 350:
-            ranking = 'Книжен плъх'
+            ranking = 'Книжен плъх (27)'
         elif comments > 275 and books > 400:
-            ranking = 'Почетен Гражданин на Буктопия'
+            ranking = 'Почетен Гражданин на Буктопия (28)'
         elif comments > 285 and books > 450:
-            ranking = 'Буктопия Гуру'
+            ranking = 'Буктопия Гуру (29)'
         elif comments > 300 and books > 500:
-            ranking = 'Велик Везир на Буктопия'
+            ranking = 'Велик Везир на Буктопия (30)'
 
         return ranking
 

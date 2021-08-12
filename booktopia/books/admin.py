@@ -1,4 +1,5 @@
-from booktopia.books.models import Book, Author, Editions, RentHistory, StatusHistory, Comments
+from booktopia.books.models import Book, Author, Editions, RentHistory, StatusHistory, Comments, CommentsAuthors, \
+    CommentsEditions
 from booktopia.common.admin_common_fields import book_common_fields, author_common_fields
 from booktopia.common.admin_settings import *
 
@@ -93,10 +94,14 @@ admin.site.register(Author)
 # admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 # admin.site.register(Comments, CommentAdmin)
-admin.site.register(Comments)
 
 admin.site.register(Editions)
-# admin.site.register(RentHistory)
 admin.site.register(StatusHistory)
-# admin.site.register(Reviews)
 
+admin.site.register(Comments)
+admin.site.register(CommentsAuthors)
+admin.site.register(CommentsEditions)
+
+
+# admin.site.register(RentHistory)
+# admin.site.register(Reviews)

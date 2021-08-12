@@ -172,6 +172,16 @@ class Book(models.Model):
                                                 verbose_name='Автоматичен QR Код', null=True,
                                                 blank=True, )
 
+    encouragements = [
+        "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+        "Money is a means to get through this world, but it cannot add a day to our lives.",
+        "It’s good to have money and the things that money can buy, but it’s good too to check up once in a while and make sure that you haven’t lost the things that money can’t buy.",
+        "And when you start putting some rainy-day money aside, you’ll understand that it isn’t “doing nothing.” It’s letting you sleep at night."
+    ]
+
+    # return render(request, 'tutorial/filtered_expenses.html', {'expenses': filter_expenses_list,
+    #                                                        "encouragements": encouragements})  # encouragaments variable is new
+
     # FIXME: a le faire en readonly ou le cacher
     generated_qr_code_content = models.CharField(max_length=100, default=None,
                                                  null=True, blank=True, )
@@ -283,14 +293,54 @@ class Comments(models.Model):
         return f'{self.book_id}'
 
     class Meta:
-        verbose_name = 'Коментар'
-        verbose_name_plural = 'Коментари'
+        verbose_name = 'Коментар книга'
+        verbose_name_plural = 'Коментари книги'
+
+
+class CommentsAuthors(models.Model):
+    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    comment = models.TextField(verbose_name='Съдържание на кометара', null=True)
+
+    record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
+                                             null=True, verbose_name='Дата на създаване на записа')
+    record_updated_at = models.DateTimeField(auto_now=True, blank=True,
+                                             null=True, verbose_name='Дата на промяна на записа')
+
+    def __str__(self):
+        return f'{self.author_id}'
+
+    class Meta:
+        verbose_name = 'Коментар автор'
+        verbose_name_plural = 'Коментари автори'
+
+
+class CommentsEditions(models.Model):
+    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    edition_id = models.ForeignKey(Editions, on_delete=models.CASCADE)
+
+    comment = models.TextField(verbose_name='Съдържание на кометара', null=True)
+
+    record_created_at = models.DateTimeField(auto_now_add=True, blank=True,
+                                             null=True, verbose_name='Дата на създаване на записа')
+    record_updated_at = models.DateTimeField(auto_now=True, blank=True,
+                                             null=True, verbose_name='Дата на промяна на записа')
+
+    def __str__(self):
+        return f'{self.edition_id}'
+
+    class Meta:
+        verbose_name = 'Коментар издателство'
+        verbose_name_plural = 'Коментари издателства'
 
 
 class Favourite(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE )
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, )
+
+
 #
 #
 #

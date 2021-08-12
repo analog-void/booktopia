@@ -163,10 +163,10 @@
                         <h4>{{ book.isbn_code|default_if_none:"-" }}</h4>
                     </div>
 
-{#                    <div class="col-md">#}
-{#                        <p>Потребител</p>#}
-{#                        <h4>{{ profile. }}</h4>#}
-{#                    </div>#}
+                    {#                    <div class="col-md">#}
+                    {#                        <p>Потребител</p>#}
+                    {#                        <h4>{{ profile. }}</h4>#}
+                    {#                    </div>#}
 
 
                     <div class="col-md">
@@ -195,35 +195,16 @@
             <div class="container text-center mt-lg-4">
                 <div class="row">
                     <div class="col-md">
-                        <p>QR код за книгата</p>
+                        <p>QR код на книгата</p>
                         <img src="{{ book.generated_qr_code_image.url }}"
                              class="img-fluid rounded" alt="Снимка Корица Лице" style="max-width:400px"/>
                     </div>
 
-                 </div>
+                </div>
             </div>
             <hr>
 
 
-            {% if is_owner %}
-                {# Modify book info form button #}
-                <div class="d-flex flex-column mb-3 align-items-center">
-                    <div class="p-2 align-items-center">
-                        <a href="{% url 'edit book' book.id %}" class="btn btn-outline-dark ">
-                            Промени Съдържанието
-                        </a>
-                    </div>
-                </div>
-
-                {# Delete book #}
-                <div class="d-flex flex-column mb-3 align-items-center">
-                    <div class="p-2 align-items-center">
-                        <a href="{% url 'delete book' book.id %}" class="btn-danger btn-outline-dark ">
-                            Изтрий книгата
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
         </div>
 
 
@@ -260,42 +241,78 @@
              role="tabpanel"
              aria-labelledby="ex3-tab-5">
 
-            {% for c in comment %}
-                <p class="text-center text-">{{ c.user_id }} {{ c.book_id }} {{ c.comment }} {{ c.pk }}</p>
-            {% endfor %}
+            <div class="container">
+                {% for el in comment %}
+                    <table class="table table-sm table-hover table-bordered mb-5">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">от: {{ el.user_id }}</th>
+                            <th scope="col">на дата: {{ el.record_created_at }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr class="table-light">
+                            {# <th scope="row">3</th> #}
+                            <td colspan="2">{{ el.comment }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+
+
+
 
         </div>
-
-        {% comment %}
-        {# TAB 6 content #}
-        <div class="tab-pane fade"
-             id="ex3-tabs-6"
-             role="tabpanel"
-             aria-labelledby="ex3-tab-6">
-            Tab 6 content
-        </div>
-        {% endcomment %}
-
     </div>
     <!-- Tabs content -->
 
 
+    {% if is_owner %}
+        {# Modify book info form button #}
+        <div class="d-flex flex-column mb-3 align-items-center">
+            <div class="p-2 align-items-center">
+                <a href="{% url 'edit book' book.id %}" class="btn btn-outline-dark ">
+                    Промени Съдържанието
+                </a>
+            </div>
+        </div>
 
+        {# Delete book #}
+        <div class="d-flex flex-column mb-3 align-items-center">
+            <div class="p-2 align-items-center">
+                <a href="{% url 'delete book' book.id %}" class="btn-danger btn-outline-dark ">
+                    Изтрий книгата
+                </a>
+            </div>
+        </div>
 
+    {% else %}
 
+        <form action="{% url 'new comment book' book.pk %}" class="w-50 m-auto" method="post">
+            {% csrf_token %}
+            {{ form }}
+            {{ form.errors }}
 
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-rounded btn-outline-primary">Добави нов коментар</button>
+            </div>
+        </form>
+        <hr>
 
+        <div class="d-flex flex-column mt-5 align-items-center">
+            <div class="pb-3">
+                <a href="{% url 'delete book' book.id %}" class="btn-info btn-outline-dark">
+                    Добави в любими
+                </a>
+            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
+            <div class="pb-3">
+                <a href="{% url 'delete book' book.id %}" class="btn-secondary btn-outline-dark ">
+                    Резервирай
+                </a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

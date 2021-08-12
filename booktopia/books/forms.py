@@ -1,6 +1,6 @@
 from django import forms
 
-from booktopia.books.models import Book
+from booktopia.books.models import Book, Comments, CommentsAuthors, CommentsEditions
 from booktopia.books.submodels.authors_model import Author
 from booktopia.books.submodels.editions_model import Editions
 
@@ -136,8 +136,14 @@ class EditBookForm(forms.ModelForm, BootstrapFormMixin):
                   )
 
 
-class BookCommentForm(forms.Form):
-    pass
+class BookCommentForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = Comments
+        fields = ('comment',)
 
 
 class AddAuthorForm(forms.ModelForm, BootstrapFormMixin):
@@ -161,6 +167,18 @@ class EditAuthorForm(forms.ModelForm, BootstrapFormMixin):
         fields = '__all__'
 
 
+class AuthorCommentForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = CommentsAuthors
+        fields = ('comment',)
+
+
+###########################
+###########################
 class AddEditionForm(forms.ModelForm, BootstrapFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -179,6 +197,16 @@ class EditEditionForm(forms.ModelForm, BootstrapFormMixin):
     class Meta:
         model = Editions
         fields = '__all__'
+
+
+class EditionCommentForm(forms.ModelForm, BootstrapFormMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap()
+
+    class Meta:
+        model = CommentsEditions
+        fields = ('comment',)
 
 
 """

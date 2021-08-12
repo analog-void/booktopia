@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from taggit.models import Tag
 
-from booktopia.books.models import Book, Comments
+from booktopia.books.models import Book, Comments, CommentsAuthors, CommentsEditions
 from booktopia.books.submodels.authors_model import Author
 from booktopia.books.submodels.editions_model import Editions
-from .forms import AddAuthorForm, EditAuthorForm, AddEditionForm, EditEditionForm
+from .forms import AddAuthorForm, EditAuthorForm, AddEditionForm, EditEditionForm, AuthorCommentForm, EditionCommentForm
 from .forms import AddBookForm, EditBookForm, BookCommentForm
 from ..accounts.models import Profile
 
@@ -15,13 +15,16 @@ def index(request):
     return render(request, 'books/books_index.html')
 
 
-# def show_all_books(request):
-#     books = Book.objects.all()
-#
-#     context = {
-#         'books': books,
-#     }
-#     return render(request, 'books/books_all.html', context)
+@login_required
+def show_my_books(request):
+    user = request.user.id
+    books = Book.objects.filter(user_id=user)
+
+    context = {
+        'books': books,
+    }
+    return render(request, 'books/books_my.html', context)
+
 
 class ShowAllBooks(ListView):
     template_name = 'books/books_all.html'
@@ -32,11 +35,23 @@ class ShowAllBooks(ListView):
 
 def book_detail(request, pk):
     book = Book.objects.get(pk=pk)
-    comment = Comments.objects.filter(book_id=pk)
+    comment = Comments.objects.filter(book_id=pk).order_by('-record_updated_at')
     tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
     profile = Profile.objects.all()
-
     is_owner = book.user == request.user
+
+    if request.method == "POST":
+        form = BookCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id_id = request.user.id
+            comment.book_id_id = pk
+
+            form.save()
+
+            return redirect('book detail', pk)
+    else:
+        form = BookCommentForm
 
     context = {
         "book": book,
@@ -44,6 +59,7 @@ def book_detail(request, pk):
         'comment': comment,
         'tags': tags,
         'profile': profile,
+        'form': form,
 
     }
     return render(request, 'books/book_detail.html', context)
@@ -133,14 +149,29 @@ class ShowAllAuthors(ListView):
 def author_detail(request, pk):
     author = Author.objects.get(pk=pk)
     tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
-    # books = Book.objects.all()
+    comments = CommentsAuthors.objects.filter(author_id_id=pk).order_by('-record_updated_at')
     books = Book.author_name
+
+    if request.method == "POST":
+        form = AuthorCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id_id = request.user.id
+            comment.author_id_id = pk
+            form.save()
+        return redirect('author detail', pk)
+
+    else:
+        form = AuthorCommentForm
 
     context = {
         "author": author,
         'tags': tags,
-        'books': books
+        'books': books,
+        'form': form,
+        'comments': comments,
     }
+
     return render(request, 'authors/author_detail.html', context)
 
 
@@ -222,10 +253,27 @@ class ShowAllEditions(ListView):
 
 def edition_detail(request, pk):
     edition = Editions.objects.get(pk=pk)
+    comments = CommentsEditions.objects.filter(edition_id_id=pk).order_by('-record_updated_at')
+
+    if request.method == "POST":
+        form = EditionCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id_id = request.user.id
+            comment.edition_id_id = pk
+            form.save()
+        return redirect('edition detail', pk)
+
+    else:
+        form = EditionCommentForm
 
     context = {
         "edition": edition,
+        "comments": comments,
+        "form": form,
+
     }
+
     return render(request, 'editions/editions_detail.html', context)
 
 

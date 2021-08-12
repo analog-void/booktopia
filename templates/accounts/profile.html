@@ -19,7 +19,7 @@
 
             <div class="text-center mt-2 mb-2 text-warning"
                  style="height: 100px;">
-                <h4>Личен профил - {{ profile.user }}</h4>
+                <h5>Личен профил - {{ profile.user }}</h5>
                 <p>Всички полета са задължителни.</p>
 
                 {% if profile.user_data_progress < 100 %}
@@ -112,14 +112,37 @@
             {{ form.mobile_phone.errors }}
 
 
+            <div class="mt-4">
+                <hr>
+            </div>
+
+
             <p class="mt-1">Профилна снимка</p>
             <div class="form-outline mt-n3">
                 {{ form.photo }}
             </div>
 
+            <div class="col-md mt-4 text-center">
+                {% if profile.photo %}
+                    <p>Текуща снимка</p>
+                    <img src="{{ profile.photo.url }}"
+                         class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
+
+                {% elif profile.gender == 'F' %}
+                    <img src="{% static '/generic/user-female.png' %}"
+                         class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
+
+                {% elif profile.gender == 'M' %}
+                       <img src="{% static '/generic/user-male.png' %}"
+                            class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
+                {% endif %}
+            </div>
+
             {# {{ form.errors }}#}
 
-            {{ profile.user_ranking }}
+            <div class="text-center mt-4">
+                Потребителски ранг: <strong>{{ profile.user_ranking }}</strong>
+            </div>
 
 
             <div class="text-center mt-4">
