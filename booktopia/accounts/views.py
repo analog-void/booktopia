@@ -17,7 +17,7 @@ def sign_in_user(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('book index')
+            return redirect('all my books table')
 
     else:
         form = LoginForm()
@@ -52,7 +52,7 @@ def register_user(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('book index')
+    return redirect('landing')
 
 
 @login_required
@@ -82,7 +82,7 @@ def user_profile(request):
     return render(request, 'accounts/profile.html', context)
 
 
-@login_required
+# @login_required
 def egn_checker(request):
     profile = Profile.objects.get(pk=request.user.id)
     # egn_initial = profile.egn_number
@@ -127,6 +127,7 @@ def egn_checker(request):
         'is_profile_completed': is_profile_completed,
     }
 
+    # return render(request, 'accounts/profile.html', context)
     return render(request, 'accounts/egn_checker.html', context)
 
 

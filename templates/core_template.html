@@ -30,17 +30,22 @@
 {# Additionnal CSS #}
 {% block css_body %}{% endblock %}
 
-{# Common Menu #}
-{% include 'elements/menu_common.html' %}
+{% if user.is_authenticated %}
+    {# Common Menu #}
+    {% include 'elements/menu_common.html' %}
 
-{# Jumbotron #}
-{% include 'elements/el_jumbotron_common.html' %}
+    {# Jumbotron #}
+    {% include 'elements/el_jumbotron_common.html' %}
+{% endif %}
+
 
 {# Main content block #}
 {% block content_main %}{% endblock %}
 
-{# Footer #}
-{% include 'elements/el_footer.html' %}
+{% if user.is_authenticated %}
+    {# Footer #}
+    {% include 'elements/el_footer.html' %}
+{% endif %}
 
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>

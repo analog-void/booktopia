@@ -1,20 +1,34 @@
 {% extends 'core_template.html' %}
 {% block title %}Вход{% endblock %}
+{% load static %}
 
 {#{% block meta_description %}{% endblock %}#}
 {#{% block meta_content %}{% endblock %}#}
 
 {% block content_main %}
 
+    <div class="container text-center mt-lg-4">
+        <div class="row">
+            <div class="col-md mt-5">
+                <img src="{% static "logo/bt-logo-no-frame.png" %}"
+                     class="img-fluid rounded" alt="Logo" style="max-width:400px"/>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <form action="{% url 'sign in' %}" class="w-50 m-auto" method="post">
-            <h2 class="text-center">Вход</h2>
+
             {% csrf_token %}
             {{ form }}
             {{ form.errors }}
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-rounded btn-outline-primary">Вход</button>
+
+                <p class="text-center mt-4">Все още нямате поребителски акаунт?</p>
+                <p class="text-center">Регистрирайте се <a href="{% url 'sign up' %}"><strong>ТУК</strong></a></p>
             </div>
         </form>
     </div>

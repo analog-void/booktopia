@@ -56,23 +56,25 @@ class ProfileForm(forms.ModelForm, BootstrapFormMixin):
         super().__init__(*args, **kwargs)
         self._init_bootstrap()
 
-    def fields_checkups(self):
-        first_name = self.cleaned_data['first_name']
-        if not first_name:
-            raise ValidationError('Празно потребителско име')
+    # def fields_checkups(self):
+    #     first_name = self.cleaned_data['first_name']
+    #     if not first_name:
+    #         raise ValidationError('Празно потребителско име')
 
     class Meta:
         model = Profile
 
-        fields = ('first_name',
-                  'middle_name',
-                  'family_name',
-                  # 'gender',
-                  # 'date_of_birth',
-                  # 'egn_number',
-                  'mobile_phone',
-                  'photo',
-                  )
+        fields = (
+            'egn_number',
+            'first_name',
+            'middle_name',
+            'family_name',
+            # 'gender',
+            # 'date_of_birth',
+            # 'egn_number',
+            'mobile_phone',
+            'photo',
+        )
 
 
 class EgnForm(forms.ModelForm, BootstrapFormMixin):
@@ -80,9 +82,13 @@ class EgnForm(forms.ModelForm, BootstrapFormMixin):
         super().__init__(*args, **kwargs)
         self._init_bootstrap()
 
+        # super(EgnForm, self).__init__(*args, **kwargs)
+        # self.fields['first_name'].required = False
+
     class Meta:
         model = Profile
         fields = ('egn_number',)
+        # fields = '__all__'
 
 
 """

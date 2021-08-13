@@ -33,6 +33,9 @@ https://github.com/ivo-bass/iCook
 ## Pagination w/Bootstrap
 https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html
 
+## Book and reading quotations
+https://www.keepinspiring.me/quotes-about-books-and-reading/
+
 
 
 

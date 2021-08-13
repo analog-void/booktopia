@@ -1,11 +1,21 @@
 {% extends 'core_template.html' %}
 {% block meta_description %}{% endblock %}
 {% block meta_content %}{% endblock %}
+{% load static %}
 
 {% block title %}Регистрация{% endblock %}
 
 {% block content_main %}
 
+    <div class="container text-center mt-lg-4">
+        <div class="row">
+            <div class="col-md mt-5">
+                <img src="{% static "logo/bt-logo-no-frame.png" %}"
+                     class="img-fluid rounded" alt="Logo" style="max-width:400px"/>
+            </div>
+        </div>
+    </div>
+    
     <div class="container">
         <form action="{% url 'sign up' %}" class="w-50 m-auto" method="post">
             <h2 class="text-center">Регистрация</h2>
@@ -19,8 +29,11 @@
 
             <div class="text-center mt-3 font-italic">Вече имате създаден потребителски профил?
                 <br>
-                <a href="{% url 'sign in' %}">Влезте от тук</a></div>
+                <a href="{% url 'sign in' %}"><strong>Влезте от тук</strong></a></div>
 
         </form>
     </div>
 {% endblock %}
+
+
+{# aaa@bbb.ccc #}

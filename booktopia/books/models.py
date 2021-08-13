@@ -61,7 +61,6 @@ class Book(models.Model):
                                            verbose_name='Актуално състояние на книгата',
                                            choices=BOOK_CURRENT_STATUS)
 
-    # Section Identification
     catalog_num = models.CharField(max_length=100, verbose_name='Вътрешен каталожен номер',
                                    null=True, blank=True,
                                    help_text="Каталожен номер по десетична система. Полето е задължително",
