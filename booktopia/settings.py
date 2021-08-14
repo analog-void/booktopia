@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from django.template.defaultfilters import join
@@ -5,7 +6,7 @@ from django.template.defaultfilters import join
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-si99jf$(5+ew!a)_22)-xcde@7ch1$h-&22pchq0n3q($xr0xf'
+SECRET_KEY = os.environ.get('SECRET_KEY'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,16 +90,22 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'booktopia_2',
-#         'USER': 'postgres',
-#         'PASSWORD': 'WHh4U1JaSHNTa21aOVdvV1ZiSzRiZz09',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
+#         'NAME': 'booktopia',
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': 'localhost',
+#         # 'HOST': os.environ.get('DB_HOST'),
+#         'PORT': os.environ.get('DB_PORT'),
 #     }
 # }
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+"""
+DB_HOST
+DB_USER
+DB_PASSWORD
+DB_PORT
+"""
+
 
 # FIXME: TO PUT IN INITIAL STATE !!!
 AUTH_PASSWORD_VALIDATORS = [

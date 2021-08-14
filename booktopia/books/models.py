@@ -171,15 +171,6 @@ class Book(models.Model):
                                                 verbose_name='Автоматичен QR Код', null=True,
                                                 blank=True, )
 
-    encouragements = [
-        "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
-        "Money is a means to get through this world, but it cannot add a day to our lives.",
-        "It’s good to have money and the things that money can buy, but it’s good too to check up once in a while and make sure that you haven’t lost the things that money can’t buy.",
-        "And when you start putting some rainy-day money aside, you’ll understand that it isn’t “doing nothing.” It’s letting you sleep at night."
-    ]
-
-    # return render(request, 'tutorial/filtered_expenses.html', {'expenses': filter_expenses_list,
-    #                                                        "encouragements": encouragements})  # encouragaments variable is new
 
     # FIXME: a le faire en readonly ou le cacher
     generated_qr_code_content = models.CharField(max_length=100, default=None,

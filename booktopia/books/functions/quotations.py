@@ -147,3 +147,15 @@ quotations = [
 
     "A book is a version of the world. If you do not like it, ignore it; or offer your own version in return. - Salman Rushdie",
 ]
+
+
+"""
+    encouragements = [
+        "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+        "Money is a means to get through this world, but it cannot add a day to our lives.",
+        "And when you start putting some rainy-day money aside, you’ll understand that it isn’t “doing nothing.” It’s letting you sleep at night."
+    ]
+
+    # return render(request, 'tutorial/filtered_expenses.html', {'expenses': filter_expenses_list,
+    #                                                        "encouragements": encouragements})
+"""

@@ -88,6 +88,7 @@ class Profile(models.Model):
                                    )
 
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES,
+                              null=True, blank=True,
                               verbose_name='Пол', )
 
     date_of_birth = models.DateField(null=True, blank=True,
@@ -145,7 +146,7 @@ class Profile(models.Model):
     @property
     def user_ranking(self):
         ranking = '-'
-            # 'Новодошъл'
+        # 'Новодошъл'
 
         comments = self.user.comments_set.count()
         books = self.user.book_set.count()
@@ -234,75 +235,80 @@ class Profile(models.Model):
                 {'mobile_phone': "Номерът на телефона трябва да е най-малко 4 и не повече от 17 символа"})
 
     def get_egn_gender(self):
-        egn_details = parse(self.egn_number)
-        if egn_details['gender'] == 'Male':
-            return 'M'
-        else:
-            return 'F'
+        if self.egn_number:
+            egn_details = parse(self.egn_number)
+            if egn_details['gender'] == 'Male':
+                return 'M'
+            else:
+                return 'F'
 
     def get_egn_dob(self):
-        egn_details = parse(self.egn_number)
-        egn_dob = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
-        return egn_dob
+        if self.egn_number:
+            egn_details = parse(self.egn_number)
+            egn_dob = f"{egn_details['year']}-{egn_details['month']}-{egn_details['day']}"
+            return egn_dob
 
     def get_birth_region(self):
-        egn_details = parse(self.egn_number)
-        region = egn_details['region_bg']
-        return region
+        if self.egn_number:
+            egn_details = parse(self.egn_number)
+            region = egn_details['region_bg']
+            return region
 
     def get_astro_sign(self):
-        egn_details = parse(self.egn_number)
-        day = egn_details['day']
-        month = egn_details['month']
-        astro_sign = ''
+        if self.egn_number:
+            egn_details = parse(self.egn_number)
+            day = egn_details['day']
+            month = egn_details['month']
+            astro_sign = ''
 
-        if month == 12:
-            astro_sign = 'Стрелец' if (day < 22) else 'Козирог'
+            if month == 12:
+                astro_sign = 'Стрелец' if (day < 22) else 'Козирог'
 
-        elif month == 1:
-            astro_sign = 'Козирог' if (day < 20) else 'Водолей'
+            elif month == 1:
+                astro_sign = 'Козирог' if (day < 20) else 'Водолей'
 
-        elif month == 2:
-            astro_sign = 'Водолей' if (day < 19) else 'Риби'
+            elif month == 2:
+                astro_sign = 'Водолей' if (day < 19) else 'Риби'
 
-        elif month == 3:
-            astro_sign = 'Риби' if (day < 21) else 'Овен'
+            elif month == 3:
+                astro_sign = 'Риби' if (day < 21) else 'Овен'
 
-        elif month == 4:
-            astro_sign = 'Овен' if (day < 20) else 'Телец'
+            elif month == 4:
+                astro_sign = 'Овен' if (day < 20) else 'Телец'
 
-        elif month == 5:
-            astro_sign = 'Телец' if (day < 21) else 'Близнаци'
+            elif month == 5:
+                astro_sign = 'Телец' if (day < 21) else 'Близнаци'
 
-        elif month == 6:
-            astro_sign = 'Близнаци' if (day < 21) else 'Рак'
+            elif month == 6:
+                astro_sign = 'Близнаци' if (day < 21) else 'Рак'
 
-        elif month == 7:
-            astro_sign = 'Рак' if (day < 23) else 'Лъв'
+            elif month == 7:
+                astro_sign = 'Рак' if (day < 23) else 'Лъв'
 
-        elif month == 8:
-            astro_sign = 'Лъв' if (day < 23) else 'Дева'
+            elif month == 8:
+                astro_sign = 'Лъв' if (day < 23) else 'Дева'
 
-        elif month == 9:
-            astro_sign = 'Дева' if (day < 23) else 'Везни'
+            elif month == 9:
+                astro_sign = 'Дева' if (day < 23) else 'Везни'
 
-        elif month == 10:
-            astro_sign = 'Везни' if (day < 23) else 'Скорпион'
+            elif month == 10:
+                astro_sign = 'Везни' if (day < 23) else 'Скорпион'
 
-        elif month == 11:
-            astro_sign = 'Скорпион' if (day < 22) else 'Стрелец'
+            elif month == 11:
+                astro_sign = 'Скорпион' if (day < 22) else 'Стрелец'
 
-        return astro_sign
+            return astro_sign
 
     # {"year": 1978, "month": 10, "day": 15, "region_bg":
     # "\u0412\u0430\u0440\u043d\u0430", "region_en": "Varna",
     # "region_iso": "BG-03", "gender": "Male", "egn": "7810151027"}
 
     def profile_calculated_age(self):
-        today = date.today()
-        age = today.year - self.date_of_birth.year - \
-              ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
-        return f'{age} години'
+        if self.egn_number and self.date_of_birth:
+            today = date.today()
+            age = today.year - self.date_of_birth.year - \
+                  ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+            return f'{age} години'
 
     def __str__(self):
         return f'{self.user} | {self.first_name} {self.family_name}'

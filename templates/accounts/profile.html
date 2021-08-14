@@ -35,6 +35,15 @@
 
             <div class="form-outline mt-4">
                 <i class="fas fa-exclamation-circle trailing"></i>
+                {{ form.egn_number|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
+                <label class="form-label" for="id_{{ form.egn_number.name }}">{{ form.egn_number.label }}</label>
+                <div class="form-helper"></div>
+            </div>
+            {{ form.egn_number.errors }}
+
+
+            <div class="form-outline mt-4">
+                <i class="fas fa-exclamation-circle trailing"></i>
                 {{ form.first_name|append_attr:"class:form-icon-trailing"|append_attr:'data-mdb-showcounter=true'|append_attr:'maxlength=25' }}
                 <label class="form-label" for="id_{{ form.first_name.name }}">{{ form.first_name.label }}</label>
                 <div class="form-helper"></div>
@@ -57,35 +66,34 @@
             </div>
             {{ form.family_name.errors }}
 
-            <div class="mt-4">
-                {% if profile.gender == 'M' %}
-                    <p>Пол: <strong>Мъжки</strong></p>
-                {% else %}
-                    <p>Пол: <strong>Женски</strong></p>
-                {% endif %}
-            </div>
+            {% if profile.egn_number %}
 
 
-            <div class="mt-4">
-                <p>ЕГН: <strong>{{ profile.egn_number }}</strong></p>
-            </div>
+                <div class="mt-4">
+                    {% if profile.gender == 'M' %}
+                        <p>Пол: <strong>Мъжки</strong></p>
+                    {% else %}
+                        <p>Пол: <strong>Женски</strong></p>
+                    {% endif %}
+                </div>
 
-            <div class="mt-4">
-                <p>Дата на Раждане: <strong>{{ profile.date_of_birth }}</strong></p>
-            </div>
 
-            <div class="mt-4">
-                <p>Възраст: <strong>{{ profile.profile_calculated_age }}</strong></p>
-            </div>
+                <div class="mt-4">
+                    <p>Дата на Раждане: <strong>{{ profile.date_of_birth }}</strong></p>
+                </div>
 
-            <div class="mt-4">
-                <p>Роден в област: <strong>{{ profile.region_of_birth }}</strong></p>
-            </div>
+                <div class="mt-4">
+                    <p>Възраст: <strong>{{ profile.profile_calculated_age }}</strong></p>
+                </div>
 
-            <div class="mt-4">
-                <p>Астрологичен знак: <strong>{{ profile.astrological_sign }}</strong></p>
-            </div>
+                <div class="mt-4">
+                    <p>Роден в област: <strong>{{ profile.region_of_birth }}</strong></p>
+                </div>
 
+                <div class="mt-4">
+                    <p>Астрологичен знак: <strong>{{ profile.astrological_sign }}</strong></p>
+                </div>
+            {% endif %}
 
             {#            <div class="form-outline mt-4">#}
             {#                <i class="fas fa-exclamation-circle trailing"></i>#}
@@ -133,21 +141,36 @@
                          class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
 
                 {% elif profile.gender == 'M' %}
-                       <img src="{% static '/generic/user-male.png' %}"
-                            class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
+                    <img src="{% static '/generic/user-male.png' %}"
+                         class="img-fluid rounded" alt="Снимка Профил" style="max-width:250px"/>
                 {% endif %}
             </div>
 
             {# {{ form.errors }}#}
 
-            <div class="text-center mt-4">
-                Потребителски ранг: <strong>{{ profile.user_ranking }}</strong>
-            </div>
-
+            {% if profile.egn_number %}
+                <div class="text-center mt-4">
+                    Потребителски ранг: <strong>{{ profile.user_ranking }}</strong>
+                </div>
+            {% endif %}
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-rounded btn-outline-primary">Обнови информацията</button>
             </div>
+
+            <div class="text-center mt-4">
+                <h6>За да не използвате Вашето истинско ЕГН, използвайте накой от генерираните:</h6>
+
+                2504201854<br>
+                8202285563<br>
+                5101112184<br>
+                8602177223<br>
+                6901204363<br>
+                7102048226<br>
+                5929012821<br>
+                7605026023
+            </div>
+
 
         </form>
     </div>

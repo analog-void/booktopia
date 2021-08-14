@@ -2,6 +2,7 @@ import egn
 # from django import forms
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
@@ -39,7 +40,8 @@ def register_user(request):
 
             # TODO: a creer un dashboard
             # return redirect('all my books table')
-            return redirect('egn checker')
+            return redirect('profile')
+            # return redirect('egn checker')
     else:
         form = RegisterForm()
 
@@ -65,7 +67,25 @@ def user_profile(request):
             instance=profile,
         )
         if form.is_valid():
-            form.save()
+            form.save(commit=False)
+
+            new_egn = form.cleaned_data['egn_number']
+
+            # # IF EGN IS SUBMITTED NULL
+            # if not new_egn:
+            #     return redirect('egn checker')
+
+            new_egn_check = egn.validate(new_egn)
+
+            if new_egn_check:
+                form.save()
+                return redirect('all my books table')
+
+            else:
+                return redirect('profile')
+                # raise ValidationError('Invalid EGN')
+
+        else:
             return redirect('profile')
 
     else:
@@ -146,4 +166,42 @@ xxx@beta2.com
 alpha@gamma.com
 
 PassWord1
+"""
+
+
+
+"""
+@login_required
+def user_profile(request):
+    profile = Profile.objects.get(pk=request.user.id)
+    if request.method == 'POST':
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile,
+        )
+        if form.is_valid():
+            form.save()
+            
+            
+            
+            
+            
+            
+            return redirect('profile')
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    user_name = Book.objects.filter(user_id=request.user.id)
+
+    context = {
+        'form': form,
+        'user_name': user_name,
+        'profile': profile,
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
+
 """

@@ -150,7 +150,7 @@ def author_detail(request, pk):
     author = Author.objects.get(pk=pk)
     tags = Tag.objects.filter(taggit_taggeditem_items__object_id=pk)
     comments = CommentsAuthors.objects.filter(author_id_id=pk).order_by('-record_updated_at')
-    books = Book.author_name
+    books = Book.objects.filter(author_name_id=pk)
 
     if request.method == "POST":
         form = AuthorCommentForm(request.POST)
@@ -254,6 +254,7 @@ class ShowAllEditions(ListView):
 def edition_detail(request, pk):
     edition = Editions.objects.get(pk=pk)
     comments = CommentsEditions.objects.filter(edition_id_id=pk).order_by('-record_updated_at')
+    books = Book.objects.filter(editions_id=pk)
 
     if request.method == "POST":
         form = EditionCommentForm(request.POST)
@@ -271,6 +272,7 @@ def edition_detail(request, pk):
         "edition": edition,
         "comments": comments,
         "form": form,
+        "books": books,
 
     }
 
