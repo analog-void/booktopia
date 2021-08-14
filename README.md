@@ -16,7 +16,6 @@ VictorP, analogvoid@protonmail.com
   този момент не е намерено решение).
 - Файлът used_resources.md показва използваните външни източниици на информация при изработката на настоящия проект.
 
-## Функционалности
 
 ## Покрити Изисквания
 **Mandatory requirements/Must haves**
@@ -42,7 +41,7 @@ VictorP, analogvoid@protonmail.com
 - [x] Responsive web design 
 - [x] Class-based views (<30%)
 - [x] Extended Django user
-- [ ] Documentation/ Swagger (>50%)
+- [x] Documentation/ Swagger (>50%)
 - [ ] Use a file storage cloud API e.g., Cloudinary, Dropbox, Google Drive or other for storing the files
 - [ ] Implement Microservice architecture in your application.
 - [ ] Additional functionality, not explicitly described in this section, will be counted as a bonus if it has practical usage.
@@ -63,5 +62,5 @@ VictorP, analogvoid@protonmail.com
 - Вътрешна система за класиране, според броя на добавени книги и коментари
 - Генериране на уникален код за всяка книга, както и код за генериране на QR изображение
 - Процент на завършеност на регистрацията на нов потребител
-- 
+- и др.
 

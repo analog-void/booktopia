@@ -120,7 +120,8 @@ class Book(models.Model):
 
     # Uploading each file in a separate file path by a pk and book name
     def file_upload_path(self, filename):
-        book_id = str(self.pk)
+        book_id = str(self.catalog_num)
+        # book_id = str(self.pk)
         return "book_images/" + book_id + "/" + filename
 
     cover_front = models.ImageField(upload_to=file_upload_path, verbose_name='Корица',
@@ -224,7 +225,8 @@ class Book(models.Model):
         qrc.make(fit=True)
 
         image = qrc.make_image(fill_color="black", back_color="white")
-        image_path = str(f'{MEDIA_ROOT}/book_images/{self.pk}/book_qrcode.png')
+        image_path = str(f'{MEDIA_ROOT}/book_images/{self.catalog_num}/book_qrcode.png')
+        # image_path = str(f'{MEDIA_ROOT}/book_images/{self.pk}/book_qrcode.png')
         image.save(image_path)
 
     def __str__(self):
@@ -250,14 +252,17 @@ class Book(models.Model):
 
             # Create a pk directory if Not uploaded images
             try:
-                os.mkdir(str(f'{MEDIA_ROOT}/book_images/{self.pk}'))
+                os.mkdir(str(f'{MEDIA_ROOT}/book_images/{self.catalog_num}'))
+                # os.mkdir(str(f'{MEDIA_ROOT}/book_images/{self.pk}'))
+                # os.mkdir(str(f'{MEDIA_ROOT}/book_images/{self.pk}'))
             except OSError as e:
                 if e.errno == 17:  # Already exists.
                     pass
 
             # QR Code gen and image field update
             self.qr_picture_gen(self.generated_qr_code_content)
-            image_path = str(f'book_images/{self.pk}/book_qrcode.png')
+            image_path = str(f'book_images/{self.catalog_num}/book_qrcode.png') # bez katalog num
+            # image_path = str(f'book_images/{self.pk}/book_qrcode_{self.catalog_num}.png') # bez katalog num
             self.generated_qr_code_image = image_path
 
         # TODO: Pillow to QR - ADD id, Tag the upl image, resize, crop etc
